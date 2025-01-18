@@ -4,90 +4,63 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
 
 class Ekin extends Controller
 {
     public function perjanjianKinerja()
     {
-        // Generate PDF content
-        $pdf = Pdf::loadView('ekin.perjanjian_kinerja.kop_surat', [])
-            ->setPaper('a4', 'portrait');
-
-        // Save PDF to a temporary file
-        $tempFile = tempnam(sys_get_temp_dir(), 'pdf');
-        file_put_contents($tempFile, $pdf->output());
-
-        // Return the file as a download response
-        return response()->download($tempFile, 'kop_surat.pdf')->deleteFileAfterSend(true);
+        return $this->generatePdf('ekin.perjanjian_kinerja.kop_surat', 'kop_surat.pdf', 'a4', 'portrait');
     }
-
 
     public function evaluasiKinerja()
     {
-        // Generate PDF content
-        $pdf = Pdf::loadView('ekin.evaluasi_kinerja.hal1', [])
-            ->setPaper('a4', 'portrait');
-
-        // Save PDF to a temporary file
-        $tempFile = tempnam(sys_get_temp_dir(), 'pdf');
-        file_put_contents($tempFile, $pdf->output());
-
-        // Return the file as a download response
-        return response()->download($tempFile, 'evaluasi_kinerja.pdf')->deleteFileAfterSend(true);
+        return $this->generatePdf('ekin.evaluasi_kinerja.hal1', 'evaluasi_kinerja.pdf', 'a4', 'portrait');
     }
 
     public function matriksPeranHasil()
     {
-        // Generate PDF content
-        $pdf = Pdf::loadView('ekin.matriks_peran_hasil.hal1', [])
-            ->setPaper('a4', 'landscape');
-
-        // Save PDF to a temporary file
-        $tempFile = tempnam(sys_get_temp_dir(), 'pdf');
-        file_put_contents($tempFile, $pdf->output());
-
-        // Return the file as a download response
-        return response()->download($tempFile, 'matriks_peran_hasil.pdf')->deleteFileAfterSend(true);
+        return $this->generatePdf('ekin.matriks_peran_hasil.hal1', 'matriks_peran_hasil.pdf', 'a4', 'landscape');
     }
 
     public function hasilSkp()
     {
-        // Generate PDF content
-        $pdf = Pdf::loadView('ekin.hasil_skp.hal2', [])
-            ->setPaper('a4', 'portrait');
-
-        // Save PDF to a temporary file
-        $tempFile = tempnam(sys_get_temp_dir(), 'pdf');
-        file_put_contents($tempFile, $pdf->output());
-
-        // Return the file as a download response
-        return response()->download($tempFile, 'hasil_skp.pdf')->deleteFileAfterSend(true);
+        return $this->generatePdf('ekin.hasil_skp.hal2', 'hasil_skp.pdf', 'a4', 'portrait');
     }
+
     public function formPenilaian()
     {
-        // Generate PDF content
-        $pdf = Pdf::loadView('ekin.form_penilaian.hal1', [])
-            ->setPaper('a4', 'portrait');
-
-        // Save PDF to a temporary file
-        $tempFile = tempnam(sys_get_temp_dir(), 'pdf');
-        file_put_contents($tempFile, $pdf->output());
-
-        // Return the file as a download response
-        return response()->download($tempFile, 'form_penilaian.pdf')->deleteFileAfterSend(true);
+        return $this->generatePdf('ekin.form_penilaian.hal1', 'form_penilaian.pdf', 'a4', 'portrait');
     }
 
     public function rencanaSkp()
     {
-        // Generate PDF content
-        $pdf = Pdf::loadView('ekin.rencana_skp.hal1', [])
-            ->setPaper('a4', 'portrait');
+        return $this->generatePdf('ekin.rencana_skp.hal1', 'rencana_skp.pdf', 'a4', 'portrait');
+    }
 
-        // Save PDF to a temporary file
-        $tempFile = tempnam(sys_get_temp_dir(), 'pdf');
-        file_put_contents($tempFile, $pdf->output());
+    /**
+     * Generate a PDF and return as a downloadable API response.
+     *
+     * @param string $view
+     * @param string $filename
+     * @param string $paper
+     * @param string $orientation
+     * @return \Illuminate\Http\Response
+     */
+    private function generatePdf($view, $filename, $paper, $orientation)
+    {
+        // Load the view and set PDF options
+        $pdf = Pdf::loadView($view, [])
+            ->setPaper($paper, $orientation);
 
-        // Return the file as a download response
-        return response()->download($tempFile, 'rencana_skp.pdf')->deleteFileAfterSend(true);
+        // Stream the PDF as a downloadable response
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            $filename,
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            ]
+        );
     }
 }
