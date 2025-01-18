@@ -47,10 +47,10 @@ class Ekin extends Controller
      * @param string $orientation
      * @return \Illuminate\Http\Response
      */
-    private function generatePdf($view, $filename, $paper, $orientation)
+    private function generatePdf($view, $filename, $paper, $orientation, $data = [])
     {
         // Load the view and set PDF options
-        $pdf = Pdf::loadView($view, [])
+        $pdf = Pdf::loadView($view, $data)
             ->setPaper($paper, $orientation);
 
         // Stream the PDF as a downloadable response
