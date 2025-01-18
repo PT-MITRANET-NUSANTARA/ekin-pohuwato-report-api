@@ -159,7 +159,7 @@
     <div class="title-wrapper" style="margin-top: 2rem; margin-bottom: 2rem">
         <div class="title">EVALUASI KINERJA PEGAWAI</div>
         <div class="title">PENDEKATAN HASIL KINERJA KUANTITATIF</div>
-        <div class="title">PERIODE :JANUARY</div>
+        <div class="title">PERIODE :{{ $periode }}</div>
     </div>
     <table class="table-sasaran">
         <tbody>
@@ -181,38 +181,38 @@
             <tr>
                 <td>1</td>
                 <td>NAMA</td>
-                <td>{bawahan?.nama_asn}</td>
+                <td>{{ $nama_dinilai }}</td>
                 <td>1</td>
                 <td>NAMA</td>
-                <td>{atasan?.nama_asn}</td>
+                <td>{{ $nama_penilai }}</td>
             </tr>
             <tr>
                 <td>2</td>
                 <td>NIP</td>
-                <td>{bawahan?.id_asn}</td>
+                <td>{{ $nip_dinilai }}</td>
                 <td>2</td>
                 <td>NIP</td>
-                <td>{atasan?.id_asn}</td>
+                <td>{{ $nip_penilai }}</td>
             </tr>
             <tr>
                 <td>4</td>
                 <td>JABATAN</td>
-                <td>{bawahan?.nama_jabatan}</td>
+                <td>{{ $jabatan_dinilai }}</td>
                 <td>4</td>
                 <td>JABATAN</td>
-                <td>{atasan?.nama_jabatan}</td>
+                <td>{{ $jabatan_penilai }}</td>
             </tr>
             <tr>
                 <td>5</td>
                 <td>UNIT KERJA</td>
-                <td>{bawahan?.unor.nama}</td>
+                <td>{{ $unit_dinilai }}</td>
                 <td>5</td>
                 <td>UNIT KERJA</td>
-                <td>{atasan?.unor.nama}</td>
+                <td>{{ $unit_penilai }}</td>
             </tr>
         </tbody>
     </table>
-   
+
     <table class="table-sasaran" style="font-size: 8">
         <tbody style="font-size: 8">
             <tr style="font-size: 8">
@@ -333,16 +333,16 @@
                 <td></td>
             </tr>
             <tr class="title-row">
-                <td>Kepala LPMPP UNG</td>
-                <td>Kepala Pusat SIM dan Survei SPMI</td>
+                <td>{{ $jabatan_dinilai }}</td>
+                <td>{{ $jabatan_penilai }}</td>
             </tr>
             <tr class="name-row">
-                <td>Mohamad Rafiq Daud</td>
-                <td>Ical Sumargo</td>
+                <td>{{ $nama_dinilai }}</td>
+                <td>{{ $nama_penilai }}</td>
             </tr>
             <tr class="id-row">
-                <td>123123123</td>
-                <td>123123123</td>
+                <td>{{ $nip_dinilai }}</td>
+                <td>{{ $nip_penilai }}</td>
             </tr>
         </tbody>
     </table>

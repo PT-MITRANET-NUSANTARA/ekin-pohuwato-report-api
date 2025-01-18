@@ -151,7 +151,7 @@
         <img class="logo" style="width: 80px; margin-bottom: 12px" src="{{ public_path('image/garuda.png') }}"
             alt="Logo Garuda">
         <div class="title">DOKUMEN EVALUASI KINERJA PEGAWA</div>
-        <div class="title">PERIODE : {{ $periode }}</div>
+        <div class="title">PERIODE : {{$periode}}</div>
     </div>
     <hr style="margin-top: 12px; margin-bottom: 12px">
     <table className="w-full" style="font-size: 6px; width: 100%;">
@@ -173,46 +173,46 @@
             </tr>
             <tr>
                 <td>Nama</td>
-                <td>{{ $nama_dinilai }}</td>
+                <td>{{$nama_dinilai}}</td>
             </tr>
             <tr>
                 <td>NIP</td>
-                <td>{{ $nip_dinilai }}</td>
+                <td>{{$nip_dinilai}}</td>
             </tr>
             <tr>
                 <td>PANGKAT/GOL RUANG</td>
-                <td>{{ $pangkat_dinilai }}</td>
+                <td>{{$pangkat_dinilai}}</td>
             </tr>
             <tr>
                 <td>JABATAN</td>
-                <td>{{ $jabatan_dinilai }}</td>
+                <td>{{$jabatan_dinilai}}</td>
             </tr>
             <tr>
                 <td>UNIT KERJA</td>
-                <td>{{ $unit_dinilai }}</td>
+                <td>{{$unit_dinilai}}</td>
             </tr>
             <tr>
                 <td colspan="2">Pejabat Penilai Kinerja</td>
             </tr>
             <tr>
                 <td>Nama</td>
-                <td>{{ $nama_penilai }}</td>
+                <td>{{$nama_penilai}}</td>
             </tr>
             <tr>
                 <td>NIP</td>
-                <td>{{ $nip_penilai }}</td>
+                <td>{{$nip_penilai}}</td>
             </tr>
             <tr>
                 <td>PANGKAT/GOL RUANG</td>
-                <td>{{ $pangkat_penilai }}</td>
+                <td>{{$pangkat_penilai}}</td>
             </tr>
             <tr>
                 <td>JABATAN</td>
-                <td>{{ $jabatan_penilai }}</td>
+                <td>{{$jabatan_penilai}}</td>
             </tr>
             <tr>
                 <td>UNIT KERJA</td>
-                <td>{{ $unit_penilai }}</td>
+                <td>{{$unit_penilai}}</td>
             </tr>
         </tbody>
     </table>
@@ -227,16 +227,16 @@
                 <td></td>
             </tr>
             <tr class="title-row">
-                <td>{{ $jabatan_dinilai }}</td>
-                <td>{{ $jabatan_penilai }}</td>
+                <td>{{$jabatan_dinilai}}</td>
+                <td>{{$jabatan_penilai}}</td>
             </tr>
             <tr class="name-row">
-                <td>{{ $nama_dinilai }}</td>
-                <td>{{ $nama_penilai }}</td>
+                <td>{{$nama_dinilai}}</td>
+                <td>{{$nama_penilai}}</td>
             </tr>
             <tr class="id-row">
-                <td>{{ $nip_dinilai }}</td>
-                <td>{{ $nip_penilai }}</td>
+                <td>{{$nip_dinilai}}</td>
+                <td>{{$nip_penilai}}</td>
             </tr>
         </tbody>
     </table>

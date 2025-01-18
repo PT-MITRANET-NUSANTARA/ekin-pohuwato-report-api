@@ -119,11 +119,11 @@
             pada hasil, kami yang bertanda tangan dibawah ini :
         </p>
         <div class="details">
-            <p class="paragraf">Nama: Mohamad Rafiq Daud</p>
-            <p class="paragraf">Jabatan: Front End Developer</p>
+            <p class="paragraf">Nama: {{$nama_pihak_pertama}}</p>
+            <p class="paragraf">Jabatan: {{$jabatan_pihak_pertama}}</p>
             <p style="margin-top: 1rem">Selanjutnya disebut Pihak Pertama</p>
-            <p class="paragraf">Nama: Mohamad Rafiq Daud</p>
-            <p class="paragraf">Jabatan: Front End Developer</p>
+            <p class="paragraf">Nama: {{$nama_pihak_kedua}}</p>
+            <p class="paragraf">Jabatan: {{$jabatan_pihak_kedua}}</p>
             <p style="margin-top: 1rem">Selaku atasan langsung pihak pertama, selanjutnya disebut Pihak Kedua</p>
         </div>
         <p class="paragraf">
@@ -146,16 +146,16 @@
                     <td style="padding: 3rem 0; width: 50%;"></td>
                 </tr>
                 <tr style="width: 50%;">
-                    <td style="width: 50%;">Kepala LPMPP UNG</td>
-                    <td style="width: 50%;">Kepala Pusat SIM dan Survei SPMI</td>
+                    <td style="width: 50%;">{{$jabatan_pihak_pertama}}</td>
+                    <td style="width: 50%;">{{$jabatan_pihak_kedua}}</td>
                 </tr>
                 <tr style="width: 50%;">
-                    <td style="width: 50%;">Mohamad Rafiq Daud</td>
-                    <td style="width: 50%;">Ical Sumargo</td>
+                    <td style="width: 50%;">{{$nama_pihak_pertama}}</td>
+                    <td style="width: 50%;">{{$nama_pihak_kedua}}</td>
                 </tr>
                 <tr style="width: 50%;">
-                    <td style="width: 50%;">123123123</td>
-                    <td style="width: 50%;">123123123</td>
+                    <td style="width: 50%;">{{$nip_pihak_pertama}}</td>
+                    <td style="width: 50%;">{{$nip_pihak_kedua}}</td>
                 </tr>
             </tbody>
         </table>

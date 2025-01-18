@@ -137,61 +137,43 @@
             padding: 0.5rem;
             border: none;
         }
+
+        img {
+            width: 2rem;
+        }
     </style>
 
 </head>
 
-<body>
-    <div class="title-wrapper" style="margin-top: 2rem">
-        <div class="title">PERJANJIAN KINERJA</div>
-        <div class="title">TAHUN 2020</div>
-        <div class="title" style="padding-block: 6rem">BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA</div>
-        <div class="title" style="padding-block: 6rem">KABUPATEN POHUWATO</div>
-    </div>
-    <table class="table-sasaran">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Sasaran Strategis</th>
-                <th>Indikator Kinerja</th>
-                <th>Target (%)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>test</td>
-                <td>test</td>
-                <td>test</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <table class="table-evaluasi">
-        <tbody>
-            <tr class="header-row">
-                <td>Pegawai yang dinilai</td>
-                <td>Pejabat penilai kinerja</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr class="title-row">
-                <td>{{$jabatan_pihak_pertama}}</td>
-                <td>{{$jabatan_pihak_kedua}}</td>
-            </tr>
-            <tr class="name-row">
-                <td>{{$nama_pihak_pertama}}</td>
-                <td>{{$nama_pihak_kedua}}</td>
-            </tr>
-            <tr class="id-row">
-                <td>{{$nip_pihak_pertama}}</td>
-                <td>{{$nip_pihak_kedua}}</td>
-            </tr>
-        </tbody>
-    </table>
+<body
+    style="border: 1px solid black; display: flex; flex-direction: column; align-items: center; justify-content: space-between; height: 100vh;">
+    <div class="title-wrapper" style="margin-top: 2rem">
+        <img class="logo" style="width: 120px; margin-bottom: 12px" src="{{ public_path('image/garuda.png') }}"
+            alt="Logo Garuda">
+        <div class="title" style="margin-top: 6rem">DOKUMEN EVALUASI KINERJA PEGAWA</div>
+        <div class="title">PERIODE : {{$periode}}</div>
+    </div>
+    <div class="title-wrapper" style="margin-top: 6rem">
+        <div class="title">Jangka Waktu Penilaian</div>
+        <div class="title">01 Januari 2022 s.d 31 Desember 2022</div>
+    </div>
+    <div class="title-wrapper" style="margin-top: 6rem">
+        <div>Nama: {{$nama_penilai}}</div>
+        <div>NIP: {{$nip_penilai}}</div>
+        <div>Pangkat/Gol.Ruang: {{$pangkat_penilai}}</div>
+        <div>Jabatan: {{$jabatan_penilai}}</div>
+        <div>NIP: {{$nip_penilai}}</div>
+        <div>Unit Kerja: {{$unit_penilai}}</div>
+    </div>
+    <div class="title-wrapper" style="margin-top: 6rem">
+        <div class="title">BADAN KEPEGAWAIAN PENDIDIKAN DAN PELATIHAN</div>
+        <div class="title">KABUPATEN POHUWATO</div>
+        <div class="title">TAHUN 2022</div>
+    </div>
 </body>
+
+
 
 
 
