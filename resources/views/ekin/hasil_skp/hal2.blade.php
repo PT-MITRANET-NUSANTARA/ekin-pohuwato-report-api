@@ -160,7 +160,7 @@
         <div class="title">SASARAN KINERJA PEGAWAI</div>
         <div class="title">PENDEKATAN HASIL KINERJA KUANTITATIF</div>
         <div class="title">BAGI PEJABAT ADMINISTRASI DAN PEJABAT FUNGSIONAL</div>
-        <div class="title">PERIODE :{{$periode}}</div>
+        <div class="title">PERIODE :{{ $periode }}</div>
     </div>
     <table class="table-sasaran">
         <tbody>
@@ -182,34 +182,34 @@
             <tr>
                 <td>1</td>
                 <td>NAMA</td>
-                <td>{{$nama_dinilai}}</td>
+                <td>{{ $nama_dinilai }}</td>
                 <td>1</td>
                 <td>NAMA</td>
-                <td>{{$nama_penilai}}</td>
+                <td>{{ $nama_penilai }}</td>
             </tr>
             <tr>
                 <td>2</td>
                 <td>NIP</td>
-                <td>{{$nip_dinilai}}</td>
+                <td>{{ $nip_dinilai }}</td>
                 <td>2</td>
                 <td>NIP</td>
-                <td>{{$nip_penilai}}</td>
+                <td>{{ $nip_penilai }}</td>
             </tr>
             <tr>
                 <td>4</td>
                 <td>JABATAN</td>
-                <td>{{$jabatan_dinilai}}</td>
+                <td>{{ $jabatan_dinilai }}</td>
                 <td>4</td>
                 <td>JABATAN</td>
-                <td>{{$jabatan_penilai}}</td>
+                <td>{{ $jabatan_penilai }}</td>
             </tr>
             <tr>
                 <td>5</td>
                 <td>UNIT KERJA</td>
-                <td>{{$unit_dinilai}}</td>
+                <td>{{ $unit_dinilai }}</td>
                 <td>5</td>
                 <td>UNIT KERJA</td>
-                <td>{{$unit_penilai}}</td>
+                <td>{{ $unit_penilai }}</td>
             </tr>
         </tbody>
     </table>
@@ -228,6 +228,7 @@
                             <div style="font-size: 8; text-align: left">
                                 {{-- <Line data={penilaianChart} /> --}}
                                 Ini line chart
+                                {!! $chart->container() !!}
                             </div>
                         </div>
                     </div>
@@ -239,15 +240,35 @@
                 <td style="font-size: 8">RENCANA HASIL KERJA </td>
                 <td style="font-size: 8">ASPEK</td>
                 <td style="font-size: 8">INDKATOR KINERJA INDIVIDU</td>
-                <td style="font-size: 8">TARGET/SESUAI EKSPEKTASI</td>
+                <td style="font-size: 8">TARGET</td>
                 <td style="font-size: 8">RELASI BERDASARKAN BUKTI DUKUNG</td>
                 <td style="font-size: 8">UMPAN BALIK BERKELANJUTAN BERDASARKAN BUKTI DUKUNG</td>
             </tr>
-            <tr style="font-size: 8">
-                <td colspan="8" style="font-size: 8; text-align: left">
-                    Utama
-                </td>
+            <tr>
+                <td rowspan="3">1</td>
+                <td rowspan="3">deskripsi</td>
+                <td rowspan="3">deskripsi</td>
+                <td>a</td>
+                <td>a</td>
+                <td>a</td>
+                <td>a</td>
+                <td>a</td>
             </tr>
+            <tr>
+                <td>a</td>
+                <td>a</td>
+                <td>a</td>
+                <td>a</td>
+                <td>a</td>
+            </tr>
+            <tr>
+                <td>a</td>
+                <td>a</td>
+                <td>a</td>
+                <td>a</td>
+                <td>a</td>
+            </tr>
+
 
             {{-- {data?.rhks.map((item, index) => (
                 <>
@@ -319,16 +340,18 @@
                 <td></td>
             </tr>
             <tr class="title-row">
-                <td>{{$jabatan_dinilai}}</td>
+                <td>{{ $jabatan_dinilai }}</td>
             </tr>
             <tr class="name-row">
-                <td>{{$nama_dinilai}}</td>
+                <td>{{ $nama_dinilai }}</td>
             </tr>
             <tr class="id-row">
-                <td>{{$nip_dinilai}}</td>
+                <td>{{ $nip_dinilai }}</td>
             </tr>
         </tbody>
     </table>
+    <script src="{{ $chart->cdn() }}"></script>
+    {{ $chart->script() }}
 </body>
 
 

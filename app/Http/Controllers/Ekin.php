@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
+use ArielMejiaDev\LarapexCharts\LarapexChart;
 
 class Ekin extends Controller
 {
@@ -114,6 +115,12 @@ class Ekin extends Controller
         $unit_dinilai = $request->input('unit_dinilai', '');
         $pangkat_dinilai = $request->input('pangkat_dinilai', '');
 
+        $chart = (new LarapexChart)->lineChart()
+            ->setTitle('Capaian Kinerja Organisasi')
+            ->setSubtitle('Hasil kinerja tahun 2023')
+            ->addData('Capaian', [70, 85, 60, 90, 100])
+            ->setXAxis(['Januari', 'Februari', 'Maret', 'April', 'Mei']);
+
         $pdfMerger = PDFMerger::init();
 
         // Generate PDF content
@@ -152,6 +159,7 @@ class Ekin extends Controller
 
 
         $cover = Pdf::loadView('ekin.hasil_skp.hal2', [
+            'chart' => $chart,
             'periode' => $periode,
             'nama_penilai' => $nama_penilai,
             'jabatan_penilai' => $jabatan_penilai,
