@@ -102,36 +102,93 @@ class Ekin extends Controller
 
     public function hasilSkp(Request $request)
     {
-        $periode = $request->input('periode', '');
-        $nama_penilai = $request->input('nama_penilai', '');
-        $jabatan_penilai = $request->input('jabatan_penilai', '');
-        $nip_penilai = $request->input('nip_penilai', '');
-        $unit_penilai = $request->input('unit_penilai', '');
-        $pangkat_penilai = $request->input('pangkat_penilai', '');
-        $nama_dinilai = $request->input('nama_dinilai', '');
-        $jabatan_dinilai = $request->input('jabatan_dinilai', '');
-        $nip_dinilai = $request->input('nip_dinilai', '');
-        $unit_dinilai = $request->input('unit_dinilai', '');
-        $pangkat_dinilai = $request->input('pangkat_dinilai', '');
-
         $pdfMerger = PDFMerger::init();
 
-        $cover = Pdf::loadView('ekin.hasil_skp.cover', compact(
-            'periode',
-            'nama_penilai',
-            'jabatan_penilai',
-            'nip_penilai',
-            'unit_penilai',
-            'pangkat_penilai',
-            'nama_dinilai',
-            'jabatan_dinilai',
-            'nip_dinilai',
-            'unit_dinilai',
-            'pangkat_dinilai'
-        ))->setPaper('a4', 'portrait')->output();
+
+        $periode = '';
+        $nama_penilai = '';
+        $jabatan_penilai = '';
+        $nip_penilai = '';
+        $unit_penilai = '';
+        $nama_dinilai = '';
+        $jabatan_dinilai = '';
+        $nip_dinilai = '';
+        $unit_dinilai = '';
+        $pangkat_dinilai = '';
+        $pangkat_penilai = '';
+
+       
+        // Generate PDF content
+        $cover = Pdf::loadView('ekin.hasil_skp.cover', [
+            'periode' => $periode,
+            'nama_penilai' => $nama_penilai,
+            'jabatan_penilai' => $jabatan_penilai,
+            'nip_penilai' => $nip_penilai,
+            'unit_penilai' => $unit_penilai,
+            'pangkat_penilai' => $pangkat_penilai,
+            'nama_dinilai' => $nama_dinilai,
+            'jabatan_dinilai' => $jabatan_dinilai,
+            'nip_dinilai' => $nip_dinilai,
+            'unit_dinilai' => $unit_dinilai,
+            'pangkat_dinilai' => $pangkat_dinilai,
+        ])
+            ->setPaper('a4', 'potrait')->output();
         $pdfMerger->addString($cover);
 
+
+        $cover = Pdf::loadView('ekin.hasil_skp.hal1', [
+            'periode' => $periode,
+            'nama_penilai' => $nama_penilai,
+            'jabatan_penilai' => $jabatan_penilai,
+            'nip_penilai' => $nip_penilai,
+            'unit_penilai' => $unit_penilai,
+            'pangkat_penilai' => $pangkat_penilai,
+            'nama_dinilai' => $nama_dinilai,
+            'jabatan_dinilai' => $jabatan_dinilai,
+            'nip_dinilai' => $nip_dinilai,
+            'unit_dinilai' => $unit_dinilai,
+            'pangkat_dinilai' => $pangkat_dinilai,
+        ])
+            ->setPaper('a4', 'landscape')->output();
+        $pdfMerger->addString($cover);
+
+
+        $cover = Pdf::loadView('ekin.hasil_skp.hal2', [
+            'periode' => $periode,
+            'nama_penilai' => $nama_penilai,
+            'jabatan_penilai' => $jabatan_penilai,
+            'nip_penilai' => $nip_penilai,
+            'unit_penilai' => $unit_penilai,
+            'pangkat_penilai' => $pangkat_penilai,
+            'nama_dinilai' => $nama_dinilai,
+            'jabatan_dinilai' => $jabatan_dinilai,
+            'nip_dinilai' => $nip_dinilai,
+            'unit_dinilai' => $unit_dinilai,
+            'pangkat_dinilai' => $pangkat_dinilai,
+        ])
+            ->setPaper('a4', 'landscape')->output();
+        $pdfMerger->addString($cover);
+
+        $cover = Pdf::loadView('ekin.hasil_skp.last', [
+            'periode' => $periode,
+            'nama_penilai' => $nama_penilai,
+            'jabatan_penilai' => $jabatan_penilai,
+            'nip_penilai' => $nip_penilai,
+            'unit_penilai' => $unit_penilai,
+            'pangkat_penilai' => $pangkat_penilai,
+            'nama_dinilai' => $nama_dinilai,
+            'jabatan_dinilai' => $jabatan_dinilai,
+            'nip_dinilai' => $nip_dinilai,
+            'unit_dinilai' => $unit_dinilai,
+            'pangkat_dinilai' => $pangkat_dinilai,
+        ])
+            ->setPaper('a4', 'potrait')->output();
+        $pdfMerger->addString($cover);
+
+
+        // Lakukan merge dan simpan hasilnya
         $pdfMerger->merge();
+
         $mergedPdf = $pdfMerger->output();
 
         return response($mergedPdf, 200)
