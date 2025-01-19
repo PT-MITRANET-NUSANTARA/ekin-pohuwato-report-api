@@ -8,237 +8,143 @@ use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
 
 class Ekin extends Controller
 {
-    public function perjanjianKinerja()
+    public function perjanjianKinerja(Request $request)
     {
-        $nama_pihak_pertama = '';
-        $jabatan_pihak_pertama = '';
-        $nip_pihak_pertama = '';
-        $nama_pihak_kedua = '';
-        $jabatan_pihak_kedua = '';
-        $nip_pihak_kedua = '';
-        // Inisialisasi PDFMerger
+        $nama_pihak_pertama = $request->input('nama_pihak_pertama', '');
+        $jabatan_pihak_pertama = $request->input('jabatan_pihak_pertama', '');
+        $nip_pihak_pertama = $request->input('nip_pihak_pertama', '');
+        $nama_pihak_kedua = $request->input('nama_pihak_kedua', '');
+        $jabatan_pihak_kedua = $request->input('jabatan_pihak_kedua', '');
+        $nip_pihak_kedua = $request->input('nip_pihak_kedua', '');
+
         $pdfMerger = PDFMerger::init();
 
-        // Pastikan direktori penyimpanan sementara tersedia
-        $tmpDir = storage_path('tmp');
-        if (!file_exists($tmpDir)) {
-            mkdir($tmpDir, 0755, true);
-        }
-
-        // Generate PDF untuk kop surat
-        $kop_surat = Pdf::loadView('ekin.perjanjian_kinerja.kop_surat', [
-            'nama_pihak_pertama' => $nama_pihak_pertama,
-            'jabatan_pihak_pertama' => $jabatan_pihak_pertama,
-            'nip_pihak_pertama' => $nip_pihak_pertama,
-            'nama_pihak_kedua' => $nama_pihak_kedua,
-            'jabatan_pihak_kedua' => $jabatan_pihak_kedua,
-            'nip_pihak_kedua' => $nip_pihak_kedua,
-        ])
-            ->setPaper('a4', 'portrait')
-            ->output(); // Konversi ke string PDF
+        $kop_surat = Pdf::loadView('ekin.perjanjian_kinerja.kop_surat', compact(
+            'nama_pihak_pertama',
+            'jabatan_pihak_pertama',
+            'nip_pihak_pertama',
+            'nama_pihak_kedua',
+            'jabatan_pihak_kedua',
+            'nip_pihak_kedua'
+        ))->setPaper('a4', 'portrait')->output();
         $pdfMerger->addString($kop_surat);
 
-        // Generate PDF untuk isi
-        $isi = Pdf::loadView('ekin.perjanjian_kinerja.isi', [
-            'nama_pihak_pertama' => $nama_pihak_pertama,
-            'jabatan_pihak_pertama' => $jabatan_pihak_pertama,
-            'nip_pihak_pertama' => $nip_pihak_pertama,
-            'nama_pihak_kedua' => $nama_pihak_kedua,
-            'jabatan_pihak_kedua' => $jabatan_pihak_kedua,
-            'nip_pihak_kedua' => $nip_pihak_kedua,
-        ])
-            ->setPaper('a4', 'portrait')
-            ->output(); // Konversi ke string PDF
+        $isi = Pdf::loadView('ekin.perjanjian_kinerja.isi', compact(
+            'nama_pihak_pertama',
+            'jabatan_pihak_pertama',
+            'nip_pihak_pertama',
+            'nama_pihak_kedua',
+            'jabatan_pihak_kedua',
+            'nip_pihak_kedua'
+        ))->setPaper('a4', 'portrait')->output();
         $pdfMerger->addString($isi);
 
-        // Path untuk menyimpan file hasil merge
-        $filePath = storage_path('tmp/perjanjian_kinerja.pdf');
-
-        // Lakukan merge dan simpan hasilnya
         $pdfMerger->merge();
+        $mergedPdf = $pdfMerger->output();
 
-        // Simpan ke file
-        file_put_contents($filePath, $pdfMerger->output());
-
-        // Return file sebagai download response
-        return response()->download($filePath)->deleteFileAfterSend(true);
+        return response($mergedPdf, 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="perjanjian_kinerja.pdf"');
     }
 
 
-    public function evaluasiKinerja()
+
+    public function evaluasiKinerja(Request $request)
     {
+        $periode = $request->input('periode', '');
+        $nama_penilai = $request->input('nama_penilai', '');
+        $jabatan_penilai = $request->input('jabatan_penilai', '');
+        $nip_penilai = $request->input('nip_penilai', '');
+        $unit_penilai = $request->input('unit_penilai', '');
+        $pangkat_penilai = $request->input('pangkat_penilai', '');
+        $nama_dinilai = $request->input('nama_dinilai', '');
+        $jabatan_dinilai = $request->input('jabatan_dinilai', '');
+        $nip_dinilai = $request->input('nip_dinilai', '');
+        $unit_dinilai = $request->input('unit_dinilai', '');
+        $pangkat_dinilai = $request->input('pangkat_dinilai', '');
+
         $pdfMerger = PDFMerger::init();
 
+        $hal1 = Pdf::loadView('ekin.evaluasi_kinerja.hal1', compact(
+            'periode',
+            'nama_penilai',
+            'jabatan_penilai',
+            'nip_penilai',
+            'unit_penilai',
+            'pangkat_penilai',
+            'nama_dinilai',
+            'jabatan_dinilai',
+            'nip_dinilai',
+            'unit_dinilai',
+            'pangkat_dinilai'
+        ))->setPaper('a4', 'portrait')->output();
 
-        $periode = '';
-        $nama_penilai = '';
-        $jabatan_penilai = '';
-        $nip_penilai = '';
-        $unit_penilai = '';
-        $nama_dinilai = '';
-        $jabatan_dinilai = '';
-        $nip_dinilai = '';
-        $unit_dinilai = '';
-        $pangkat_dinilai = '';
-        $pangkat_penilai = '';
-        // Generate PDF content
-
-        // Pastikan direktori penyimpanan sementara tersedia
-        $tmpDir = storage_path('tmp');
-        if (!file_exists($tmpDir)) {
-            mkdir($tmpDir, 0755, true);
-        }
-        $hal1 = Pdf::loadView('ekin.evaluasi_kinerja.hal1', [
-            'periode' => $periode,
-            'nama_penilai' => $nama_penilai,
-            'jabatan_penilai' => $jabatan_penilai,
-            'nip_penilai' => $nip_penilai,
-            'unit_penilai' => $unit_penilai,
-            'pangkat_penilai' => $pangkat_penilai,
-            'nama_dinilai' => $nama_dinilai,
-            'jabatan_dinilai' => $jabatan_dinilai,
-            'nip_dinilai' => $nip_dinilai,
-            'unit_dinilai' => $unit_dinilai,
-            'pangkat_dinilai' => $pangkat_dinilai,
-        ])
-            ->setPaper('a4', 'portrait')->output();
         $pdfMerger->addString($hal1);
-
-        // Path untuk menyimpan file hasil merge
-        $filePath = storage_path('tmp/evaluasi_kinerja.pdf');
-
-        // Lakukan merge dan simpan hasilnya
         $pdfMerger->merge();
+        $mergedPdf = $pdfMerger->output();
 
-        // Simpan ke file
-        file_put_contents($filePath, $pdfMerger->output());
-
-        // Return file sebagai download response
-        return response()->download($filePath)->deleteFileAfterSend(true);
+        return response($mergedPdf, 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="evaluasi_kinerja.pdf"');
     }
+
 
     public function matriksPeranHasil()
     {
-        // Generate PDF content
         $pdf = Pdf::loadView('ekin.matriks_peran_hasil.hal1', [])
             ->setPaper('a4', 'landscape');
 
-        // Save PDF to a temporary file
-        $tempFile = tempnam(sys_get_temp_dir(), 'pdf');
-        file_put_contents($tempFile, $pdf->output());
-
-        // Return the file as a download response
-        return response()->download($tempFile, 'matriks_peran_hasil.pdf')->deleteFileAfterSend(true);
+        return response($pdf->output(), 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="matriks_peran_hasil.pdf"');
     }
 
-    public function hasilSkp()
+
+    public function hasilSkp(Request $request)
     {
+        $periode = $request->input('periode', '');
+        $nama_penilai = $request->input('nama_penilai', '');
+        $jabatan_penilai = $request->input('jabatan_penilai', '');
+        $nip_penilai = $request->input('nip_penilai', '');
+        $unit_penilai = $request->input('unit_penilai', '');
+        $pangkat_penilai = $request->input('pangkat_penilai', '');
+        $nama_dinilai = $request->input('nama_dinilai', '');
+        $jabatan_dinilai = $request->input('jabatan_dinilai', '');
+        $nip_dinilai = $request->input('nip_dinilai', '');
+        $unit_dinilai = $request->input('unit_dinilai', '');
+        $pangkat_dinilai = $request->input('pangkat_dinilai', '');
+
         $pdfMerger = PDFMerger::init();
 
-
-        $periode = '';
-        $nama_penilai = '';
-        $jabatan_penilai = '';
-        $nip_penilai = '';
-        $unit_penilai = '';
-        $nama_dinilai = '';
-        $jabatan_dinilai = '';
-        $nip_dinilai = '';
-        $unit_dinilai = '';
-        $pangkat_dinilai = '';
-        $pangkat_penilai = '';
-
-        // Pastikan direktori penyimpanan sementara tersedia
-        $tmpDir = storage_path('tmp');
-        if (!file_exists($tmpDir)) {
-            mkdir($tmpDir, 0755, true);
-        }
-
-        // Generate PDF content
-        $cover = Pdf::loadView('ekin.hasil_skp.cover', [
-            'periode' => $periode,
-            'nama_penilai' => $nama_penilai,
-            'jabatan_penilai' => $jabatan_penilai,
-            'nip_penilai' => $nip_penilai,
-            'unit_penilai' => $unit_penilai,
-            'pangkat_penilai' => $pangkat_penilai,
-            'nama_dinilai' => $nama_dinilai,
-            'jabatan_dinilai' => $jabatan_dinilai,
-            'nip_dinilai' => $nip_dinilai,
-            'unit_dinilai' => $unit_dinilai,
-            'pangkat_dinilai' => $pangkat_dinilai,
-        ])
-            ->setPaper('a4', 'potrait')->output();
+        $cover = Pdf::loadView('ekin.hasil_skp.cover', compact(
+            'periode',
+            'nama_penilai',
+            'jabatan_penilai',
+            'nip_penilai',
+            'unit_penilai',
+            'pangkat_penilai',
+            'nama_dinilai',
+            'jabatan_dinilai',
+            'nip_dinilai',
+            'unit_dinilai',
+            'pangkat_dinilai'
+        ))->setPaper('a4', 'portrait')->output();
         $pdfMerger->addString($cover);
 
-
-        $cover = Pdf::loadView('ekin.hasil_skp.hal1', [
-            'periode' => $periode,
-            'nama_penilai' => $nama_penilai,
-            'jabatan_penilai' => $jabatan_penilai,
-            'nip_penilai' => $nip_penilai,
-            'unit_penilai' => $unit_penilai,
-            'pangkat_penilai' => $pangkat_penilai,
-            'nama_dinilai' => $nama_dinilai,
-            'jabatan_dinilai' => $jabatan_dinilai,
-            'nip_dinilai' => $nip_dinilai,
-            'unit_dinilai' => $unit_dinilai,
-            'pangkat_dinilai' => $pangkat_dinilai,
-        ])
-            ->setPaper('a4', 'landscape')->output();
-        $pdfMerger->addString($cover);
-
-
-        $cover = Pdf::loadView('ekin.hasil_skp.hal2', [
-            'periode' => $periode,
-            'nama_penilai' => $nama_penilai,
-            'jabatan_penilai' => $jabatan_penilai,
-            'nip_penilai' => $nip_penilai,
-            'unit_penilai' => $unit_penilai,
-            'pangkat_penilai' => $pangkat_penilai,
-            'nama_dinilai' => $nama_dinilai,
-            'jabatan_dinilai' => $jabatan_dinilai,
-            'nip_dinilai' => $nip_dinilai,
-            'unit_dinilai' => $unit_dinilai,
-            'pangkat_dinilai' => $pangkat_dinilai,
-        ])
-            ->setPaper('a4', 'landscape')->output();
-        $pdfMerger->addString($cover);
-
-        $cover = Pdf::loadView('ekin.hasil_skp.last', [
-            'periode' => $periode,
-            'nama_penilai' => $nama_penilai,
-            'jabatan_penilai' => $jabatan_penilai,
-            'nip_penilai' => $nip_penilai,
-            'unit_penilai' => $unit_penilai,
-            'pangkat_penilai' => $pangkat_penilai,
-            'nama_dinilai' => $nama_dinilai,
-            'jabatan_dinilai' => $jabatan_dinilai,
-            'nip_dinilai' => $nip_dinilai,
-            'unit_dinilai' => $unit_dinilai,
-            'pangkat_dinilai' => $pangkat_dinilai,
-        ])
-            ->setPaper('a4', 'potrait')->output();
-        $pdfMerger->addString($cover);
-
-
-        // Path untuk menyimpan file hasil merge
-        $filePath = storage_path('tmp/hasil_skp.pdf');
-
-        // Lakukan merge dan simpan hasilnya
         $pdfMerger->merge();
+        $mergedPdf = $pdfMerger->output();
 
-        // Simpan ke file
-        file_put_contents($filePath, $pdfMerger->output());
-
-        // Return file sebagai download response
-        return response()->download($filePath)->deleteFileAfterSend(true);
+        return response($mergedPdf, 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="hasil_skp.pdf"');
     }
+
     public function formPenilaian()
     {
+        // Initialize PDFMerger instance
         $pdfMerger = PDFMerger::init();
 
-
+        // Define the variables (could be passed dynamically or set in the controller)
         $periode = '';
         $nama_penilai = '';
         $jabatan_penilai = '';
@@ -250,14 +156,8 @@ class Ekin extends Controller
         $unit_dinilai = '';
         $pangkat_dinilai = '';
         $pangkat_penilai = '';
-        // Generate PDF content
 
-        // Pastikan direktori penyimpanan sementara tersedia
-        $tmpDir = storage_path('tmp');
-        if (!file_exists($tmpDir)) {
-            mkdir($tmpDir, 0755, true);
-        }
-        // Generate PDF content
+        // Generate the first PDF (Hal1 view)
         $hal1 = Pdf::loadView('ekin.form_penilaian.hal1', [
             'periode' => $periode,
             'nama_penilai' => $nama_penilai,
@@ -271,28 +171,29 @@ class Ekin extends Controller
             'unit_dinilai' => $unit_dinilai,
             'pangkat_dinilai' => $pangkat_dinilai,
         ])
-            ->setPaper('a4', 'portrait')->output();
+            ->setPaper('a4', 'portrait')
+            ->output();
+
+        // Add the generated content to the PDFMerger
         $pdfMerger->addString($hal1);
 
-
-        // Path untuk menyimpan file hasil merge
-        $filePath = storage_path('tmp/form_penilaian.pdf');
-
-        // Lakukan merge dan simpan hasilnya
+        // Merge the PDF contents
         $pdfMerger->merge();
+        $mergedPdf = $pdfMerger->output();
 
-        // Simpan ke file
-        file_put_contents($filePath, $pdfMerger->output());
-
-        // Return file sebagai download response
-        return response()->download($filePath)->deleteFileAfterSend(true);
+        // Return the merged PDF as an inline response
+        return response($mergedPdf, 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="form_penilaian.pdf"');
     }
+
 
     public function rencanaSkp()
     {
+        // Initialize PDFMerger instance
         $pdfMerger = PDFMerger::init();
 
-
+        // Define the variables (could be passed dynamically or set in the controller)
         $periode = '';
         $nama_penilai = '';
         $jabatan_penilai = '';
@@ -304,14 +205,8 @@ class Ekin extends Controller
         $unit_dinilai = '';
         $pangkat_dinilai = '';
         $pangkat_penilai = '';
-        // Generate PDF content
 
-        // Pastikan direktori penyimpanan sementara tersedia
-        $tmpDir = storage_path('tmp');
-        if (!file_exists($tmpDir)) {
-            mkdir($tmpDir, 0755, true);
-        }
-        // Generate PDF content
+        // Generate the first PDF (Hal1 view)
         $hal1 = Pdf::loadView('ekin.rencana_skp.hal1', [
             'periode' => $periode,
             'nama_penilai' => $nama_penilai,
@@ -325,20 +220,20 @@ class Ekin extends Controller
             'unit_dinilai' => $unit_dinilai,
             'pangkat_dinilai' => $pangkat_dinilai,
         ])
-            ->setPaper('a4', 'portrait')->output();
+            ->setPaper('a4', 'portrait')
+            ->output();
+
+        // Add the generated content to the PDFMerger
         $pdfMerger->addString($hal1);
 
-
-        // Path untuk menyimpan file hasil merge
-        $filePath = storage_path('tmp/form_penilaian.pdf');
-
-        // Lakukan merge dan simpan hasilnya
+        // Merge the PDF contents
         $pdfMerger->merge();
+        $mergedPdf = $pdfMerger->output();
 
-        // Simpan ke file
-        file_put_contents($filePath, $pdfMerger->output());
-
-        // Return file sebagai download response
-        return response()->download($filePath)->deleteFileAfterSend(true);
+        // Return the merged PDF as an inline response
+        return response($mergedPdf, 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="rencana_skp.pdf"');
     }
+
 }
