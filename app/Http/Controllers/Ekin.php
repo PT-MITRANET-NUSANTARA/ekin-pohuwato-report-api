@@ -116,19 +116,71 @@ class Ekin extends Controller
 
         $pdfMerger = PDFMerger::init();
 
-        $cover = Pdf::loadView('ekin.hasil_skp.cover', compact(
-            'periode',
-            'nama_penilai',
-            'jabatan_penilai',
-            'nip_penilai',
-            'unit_penilai',
-            'pangkat_penilai',
-            'nama_dinilai',
-            'jabatan_dinilai',
-            'nip_dinilai',
-            'unit_dinilai',
-            'pangkat_dinilai'
-        ))->setPaper('a4', 'portrait')->output();
+        // Generate PDF content
+        $cover = Pdf::loadView('ekin.hasil_skp.cover', [
+            'periode' => $periode,
+            'nama_penilai' => $nama_penilai,
+            'jabatan_penilai' => $jabatan_penilai,
+            'nip_penilai' => $nip_penilai,
+            'unit_penilai' => $unit_penilai,
+            'pangkat_penilai' => $pangkat_penilai,
+            'nama_dinilai' => $nama_dinilai,
+            'jabatan_dinilai' => $jabatan_dinilai,
+            'nip_dinilai' => $nip_dinilai,
+            'unit_dinilai' => $unit_dinilai,
+            'pangkat_dinilai' => $pangkat_dinilai,
+        ])
+            ->setPaper('a4', 'potrait')->output();
+        $pdfMerger->addString($cover);
+
+
+        $cover = Pdf::loadView('ekin.hasil_skp.hal1', [
+            'periode' => $periode,
+            'nama_penilai' => $nama_penilai,
+            'jabatan_penilai' => $jabatan_penilai,
+            'nip_penilai' => $nip_penilai,
+            'unit_penilai' => $unit_penilai,
+            'pangkat_penilai' => $pangkat_penilai,
+            'nama_dinilai' => $nama_dinilai,
+            'jabatan_dinilai' => $jabatan_dinilai,
+            'nip_dinilai' => $nip_dinilai,
+            'unit_dinilai' => $unit_dinilai,
+            'pangkat_dinilai' => $pangkat_dinilai,
+        ])
+            ->setPaper('a4', 'landscape')->output();
+        $pdfMerger->addString($cover);
+
+
+        $cover = Pdf::loadView('ekin.hasil_skp.hal2', [
+            'periode' => $periode,
+            'nama_penilai' => $nama_penilai,
+            'jabatan_penilai' => $jabatan_penilai,
+            'nip_penilai' => $nip_penilai,
+            'unit_penilai' => $unit_penilai,
+            'pangkat_penilai' => $pangkat_penilai,
+            'nama_dinilai' => $nama_dinilai,
+            'jabatan_dinilai' => $jabatan_dinilai,
+            'nip_dinilai' => $nip_dinilai,
+            'unit_dinilai' => $unit_dinilai,
+            'pangkat_dinilai' => $pangkat_dinilai,
+        ])
+            ->setPaper('a4', 'landscape')->output();
+        $pdfMerger->addString($cover);
+
+        $cover = Pdf::loadView('ekin.hasil_skp.last', [
+            'periode' => $periode,
+            'nama_penilai' => $nama_penilai,
+            'jabatan_penilai' => $jabatan_penilai,
+            'nip_penilai' => $nip_penilai,
+            'unit_penilai' => $unit_penilai,
+            'pangkat_penilai' => $pangkat_penilai,
+            'nama_dinilai' => $nama_dinilai,
+            'jabatan_dinilai' => $jabatan_dinilai,
+            'nip_dinilai' => $nip_dinilai,
+            'unit_dinilai' => $unit_dinilai,
+            'pangkat_dinilai' => $pangkat_dinilai,
+        ])
+            ->setPaper('a4', 'potrait')->output();
         $pdfMerger->addString($cover);
 
         $pdfMerger->merge();
@@ -220,7 +272,7 @@ class Ekin extends Controller
             'unit_dinilai' => $unit_dinilai,
             'pangkat_dinilai' => $pangkat_dinilai,
         ])
-            ->setPaper('a4', 'portrait')
+            ->setPaper('a4', 'landscape')
             ->output();
 
         // Add the generated content to the PDFMerger
@@ -235,5 +287,4 @@ class Ekin extends Controller
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'inline; filename="rencana_skp.pdf"');
     }
-
 }
