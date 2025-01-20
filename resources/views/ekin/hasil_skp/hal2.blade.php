@@ -160,14 +160,14 @@
         <div class="title">SASARAN KINERJA PEGAWAI</div>
         <div class="title">PENDEKATAN HASIL KINERJA KUANTITATIF</div>
         <div class="title">BAGI PEJABAT ADMINISTRASI DAN PEJABAT FUNGSIONAL</div>
-        <div class="title">PERIODE :{{ $periode }}</div>
+        <div class="title">PERIODE :{{ $periode['name'] }}</div>
     </div>
     <table class="table-sasaran">
         <tbody>
             <tr>
                 <td style="text-align: left; font-size: 10; border: none">PEMERINTAH KAB. POHUWATO</td>
-                <td style="text-align: right; font-size: 10; border: none">PERIODE PENILAIAN: 14 January 2025−14 January
-                    2025</td>
+                <td style="text-align: right; font-size: 10; border: none">{{ $start }} s.d {{ $end }}
+                </td>
             </tr>
         </tbody>
     </table>
@@ -182,34 +182,34 @@
             <tr>
                 <td>1</td>
                 <td>NAMA</td>
-                <td>{{ $nama_dinilai }}</td>
+                <td>{{ $bawahan['nama_asn'] }}</td>
                 <td>1</td>
                 <td>NAMA</td>
-                <td>{{ $nama_penilai }}</td>
+                <td>{{ $bawahan['unor']['atasan']['asn']['nama_atasan'] }}</td>
             </tr>
             <tr>
                 <td>2</td>
                 <td>NIP</td>
-                <td>{{ $nip_dinilai }}</td>
+                <td>{{ $bawahan['id_asn'] }}</td>
                 <td>2</td>
                 <td>NIP</td>
-                <td>{{ $nip_penilai }}</td>
+                <td>{{ $bawahan['unor']['atasan']['asn']['nip_atasan'] }}</td>
             </tr>
             <tr>
                 <td>4</td>
                 <td>JABATAN</td>
-                <td>{{ $jabatan_dinilai }}</td>
+                <td>{{ $bawahan['nama_jabatan'] }}</td>
                 <td>4</td>
                 <td>JABATAN</td>
-                <td>{{ $jabatan_penilai }}</td>
+                <td>{{ $bawahan['unor']['atasan']['unor_jabatan'] }}</td>
             </tr>
             <tr>
                 <td>5</td>
                 <td>UNIT KERJA</td>
-                <td>{{ $unit_dinilai }}</td>
+                <td>{{ $bawahan['unor']['nama'] }}</td>
                 <td>5</td>
                 <td>UNIT KERJA</td>
-                <td>{{ $unit_penilai }}</td>
+                <td>{{ $bawahan['unor']['atasan']['unor_nama'] }}</td>
             </tr>
         </tbody>
     </table>
@@ -227,8 +227,8 @@
                         <div>
                             <div style="font-size: 8; text-align: left">
                                 {{-- <Line data={penilaianChart} /> --}}
-                                Ini line chart
-                                {!! $chart->container() !!}
+                                {{-- Ini line chart --}}
+                                {{-- {!! $chart->container() !!} --}}
                             </div>
                         </div>
                     </div>
@@ -245,6 +245,11 @@
                 <td style="font-size: 8">UMPAN BALIK BERKELANJUTAN BERDASARKAN BUKTI DUKUNG</td>
             </tr>
             <tr>
+                <td colspan="6" style="text-align: left">
+                    Utama
+                </td>
+            </tr>
+            {{-- <tr>
                 <td rowspan="3">1</td>
                 <td rowspan="3">deskripsi</td>
                 <td rowspan="3">deskripsi</td>
@@ -267,8 +272,29 @@
                 <td>a</td>
                 <td>a</td>
                 <td>a</td>
-            </tr>
-
+            </tr> --}}
+            @foreach ($skp['rhks'] as $rhk)
+                <tr>
+                    <td>
+                        {{ $loop->iteration }}
+                    </td>
+                    <td>
+                        {{ $rhk['desc'] }}
+                    </td>
+                    <td>
+                        <p>{{ $rhk['desc'] }}</p>
+                        <span>{{ $rhk['klasifikasi' ?? ''] }}</span>
+                    </td>
+                </tr>
+                @foreach ($rhk['aspek'] as $aspek)
+                    <tr>
+                        <td>{{ $aspek['jenis'] }}</td>
+                        <td>{{ $aspek['indikator'] }}</td>
+                        <td>{{ $aspek['target_tahunan']['target'] + $aspek['target_tahunan']['satuan'] }}</td>
+                        <td>{{$realisasi[$rhk['_id']][$aspek['_id']]}}</td>
+                    </tr>
+                @endforeach
+            @endforeach
 
             {{-- {data?.rhks.map((item, index) => (
                 <>
@@ -326,7 +352,83 @@
             </tr>
             <tr style="font-size: 8; text-align: left">
                 <td colspan="8" style="font-size: 8; text-align: left">
-                    Rating Hasil Kerja : Sesuai Ekspektasi
+                    Rating Hasil Kerja : {{$skp['hasil'][$periode['_id']]}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table-sasaran" style="font-size: 10">
+        <tbody>
+            <tr>
+                <td colspan="4">
+                    Perilaku Kerja
+                </td>
+            </tr>
+            <tr style="font-weight: bold; font-size: 10">
+                <td>NO</td>
+                <td>PERILAKU KERJA</td>
+                <td>EKSPEKTASI KHUSUS PIMPINAN</td>
+                <td>UMPAN BALIK BERKELANJUTAN BERDASARKAN BUKTI DUKUNG</td>
+            </tr>
+            @foreach ($skp['perilakus'] as $perilaku)
+                <tr>
+                    <td>
+                        {{ $loop->iteration }}
+                    </td>
+
+                    <td>
+                        <div>
+                            <b>
+                                {{ $perilaku['name'] }}
+                            </b>
+                            <ol>
+                                @foreach ($perilaku['isi'] as $isi)
+                                    <li>{{ $isi }}</li>
+                                @endforeach
+                            </ol>
+                        </div>
+                    </td>
+                    <td>
+                        {{ $perilaku['espektasi'] }}
+                    </td>
+                    <td>
+                        {{ $perilaku['feedback'][$periode['_id']]['isi'] ?? '' }}
+                    </td>
+                </tr>
+            @endforeach
+            {{-- {data?.perilakus?.map((item, index) => (
+                <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td style={{ padding: '8px' }}>
+                        <div>
+                            <b>{item.name}</b>
+                            <ol className="list-decimal list-inside">
+                                {item.isi.map((isiItem, isiIndex) => (
+                                    <li key={isiIndex}>{isiItem}</li>
+                                ))}
+                            </ol>
+                        </div>
+                    </td>
+                    <td>
+                        {/* {item.feedback || (
+                                <div className="flex items-center justify-center">
+                                    <Button type="primary" onClick={() => setModal({ trigger: true, modalData: dummyFeedback, title: 'Tambah Feedback', formFields: formFields })}>
+                                        Tambah
+                                    </Button>
+                                </div>
+                            )} */}
+                    </td>
+                    <td></td>
+                </tr>
+            ))} --}}
+            <tr style="font-size: 8; text-align: left">
+                <td colspan="8" style="font-size: 8; text-align: left">
+                    RATING PERILAKU KERJA : {{$skp['perilaku'][$periode['_id']]}}
+                </td>
+            </tr>
+            <tr style="font-size: 8; text-align: left">
+                <td colspan="8" style="font-size: 8; text-align: left">
+                    PREDIKAT KINERJA PEGAWAI* : {{$skp['predikat'][$periode['_id']]}}
                 </td>
             </tr>
         </tbody>
@@ -340,18 +442,18 @@
                 <td></td>
             </tr>
             <tr class="title-row">
-                <td>{{ $jabatan_dinilai }}</td>
+                <td>{{ $bawahan['nama_jabatan'] }}</td>
             </tr>
             <tr class="name-row">
-                <td>{{ $nama_dinilai }}</td>
+                <td>{{ $bawahan['nama_asn'] }}</td>
             </tr>
             <tr class="id-row">
-                <td>{{ $nip_dinilai }}</td>
+                <td>{{ $bawahan['id_asn'] }}</td>
             </tr>
         </tbody>
     </table>
-    <script src="{{ $chart->cdn() }}"></script>
-    {{ $chart->script() }}
+    {{-- <script src="{{ $chart->cdn() }}"></script>
+    {{ $chart->script() }} --}}
 </body>
 
 

@@ -307,7 +307,7 @@
                 <td>NO</td>
                 <td>PERILAKU KERJA</td>
                 <td>EKSPEKTASI KHUSU PIMPINAN</td>
-                <td>UMPAN BALIK BERKELANJUTAN BERDASARKAN BUKTI DUKUNG</td>
+                {{-- <td>UMPAN BALIK BERKELANJUTAN BERDASARKAN BUKTI DUKUNG</td> --}}
             </tr>
             @foreach ($skp['perilakus'] as $perilaku)
                 <tr>
@@ -330,9 +330,9 @@
                     <td>
                         {{ $perilaku['espektasi'] }}
                     </td>
-                    <td>
+                    {{-- <td>
                         {{ $perilaku['feedback'][$periode['_id']]['isi'] ?? '' }}
-                    </td>
+                    </td> --}}
                 </tr>
             @endforeach
             {{-- {data?.perilakus?.map((item, index) => (

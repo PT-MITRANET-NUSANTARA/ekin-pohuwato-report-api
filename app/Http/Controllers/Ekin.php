@@ -181,9 +181,9 @@ class Ekin extends Controller
             $pdfMerger->addString($hal1);
 
 
-            // $hal2 = Pdf::loadView('ekin.hasil_skp.hal2', compact('atasan', 'bawahan', 'periode', 'skp'))
-            //     ->setPaper('a4', 'landscape')->output();
-            // $pdfMerger->addString($hal2);
+            $hal2 = Pdf::loadView('ekin.hasil_skp.hal2', compact('atasan', 'bawahan', 'periode', 'skp', 'start', 'end', 'tahun', 'realisasi'))
+                ->setPaper('a4', 'landscape')->output();
+            $pdfMerger->addString($hal2);
 
             // $last = Pdf::loadView('ekin.hasil_skp.last', compact('atasan', 'bawahan', 'periode', 'skp'))
             //     ->setPaper('a4', 'potrait')->output();
