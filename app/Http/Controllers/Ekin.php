@@ -153,8 +153,9 @@ class Ekin extends Controller
             $skp = $request->input('skp');
             $realisasi = $request->input('realisasi');
             $periode = $request->input('periode');
-            $start = Carbon::parse($request->input('periodeStart', now()))->format('Y-m-d');
-            $end = Carbon::parse($request->input('periodeEnd', now()))->format('Y-m-d');
+            $start = Carbon::parse($request->input('periodeStart', now()))->translatedFormat('d F Y');
+            $end = Carbon::parse($request->input('periodeEnd', now()))->translatedFormat('d F Y');
+            
             $tahun = Carbon::parse($request->input('periodeEnd', now()))->year;
 
             Log::info('Memproses SKP:', [
