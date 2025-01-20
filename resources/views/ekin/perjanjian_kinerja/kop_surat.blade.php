@@ -109,8 +109,8 @@
         <img class="logo" style="width: 120px" src="{{ public_path('image/pohuwato.jpg') }}" alt="Logo pohuwato">
         <div class="title-wrapper" style="margin-top: 2rem">
             <div class="title">PERJANJIAN KINERJA</div>
-            <div class="title">TAHUN 2020</div>
-            <div class="title" style="padding-block: 6rem">BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA</div>
+            <div class="title">{{$tahun}}</div>
+            <div class="title" style="padding-block: 6rem">{{$badan}}</div>
             <div class="title" style="padding-block: 6rem">KABUPATEN POHUWATO</div>
         </div>
 

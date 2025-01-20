@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
-use ArielMejiaDev\LarapexCharts\LarapexChart;
-
+use Carbon\Carbon;
 class Ekin extends Controller
 {
     public function perjanjianKinerja(Request $request)
@@ -17,7 +16,9 @@ class Ekin extends Controller
         $nama_pihak_kedua = $request->input('nama_pihak_kedua', '');
         $jabatan_pihak_kedua = $request->input('jabatan_pihak_kedua', '');
         $nip_pihak_kedua = $request->input('nip_pihak_kedua', '');
-
+        $badan = $request->input('badan', '');
+        $tanggal = Carbon::parse($request->input('tanggal', now()));
+        $tahun = '2020';
         $pdfMerger = PDFMerger::init();
 
         $kop_surat = Pdf::loadView('ekin.perjanjian_kinerja.kop_surat', compact(
@@ -26,7 +27,10 @@ class Ekin extends Controller
             'nip_pihak_pertama',
             'nama_pihak_kedua',
             'jabatan_pihak_kedua',
-            'nip_pihak_kedua'
+            'nip_pihak_kedua',
+            'tahun',
+            'badan',
+            
         ))->setPaper('a4', 'portrait')->output();
         $pdfMerger->addString($kop_surat);
 
@@ -36,7 +40,9 @@ class Ekin extends Controller
             'nip_pihak_pertama',
             'nama_pihak_kedua',
             'jabatan_pihak_kedua',
-            'nip_pihak_kedua'
+            'nip_pihak_kedua',
+            'badan',
+            'tahun'
         ))->setPaper('a4', 'portrait')->output();
         $pdfMerger->addString($isi);
 
@@ -103,26 +109,22 @@ class Ekin extends Controller
 
     public function hasilSkp(Request $request)
     {
-        $periode = $request->input('periode', '');
-        $nama_penilai = $request->input('nama_penilai', '');
-        $jabatan_penilai = $request->input('jabatan_penilai', '');
-        $nip_penilai = $request->input('nip_penilai', '');
-        $unit_penilai = $request->input('unit_penilai', '');
-        $pangkat_penilai = $request->input('pangkat_penilai', '');
-        $nama_dinilai = $request->input('nama_dinilai', '');
-        $jabatan_dinilai = $request->input('jabatan_dinilai', '');
-        $nip_dinilai = $request->input('nip_dinilai', '');
-        $unit_dinilai = $request->input('unit_dinilai', '');
-        $pangkat_dinilai = $request->input('pangkat_dinilai', '');
-
-        $chart = (new LarapexChart)->lineChart()
-            ->setTitle('Capaian Kinerja Organisasi')
-            ->setSubtitle('Hasil kinerja tahun 2023')
-            ->addData('Capaian', [70, 85, 60, 90, 100])
-            ->setXAxis(['Januari', 'Februari', 'Maret', 'April', 'Mei']);
-
         $pdfMerger = PDFMerger::init();
 
+
+        $periode = '';
+        $nama_penilai = '';
+        $jabatan_penilai = '';
+        $nip_penilai = '';
+        $unit_penilai = '';
+        $nama_dinilai = '';
+        $jabatan_dinilai = '';
+        $nip_dinilai = '';
+        $unit_dinilai = '';
+        $pangkat_dinilai = '';
+        $pangkat_penilai = '';
+
+       
         // Generate PDF content
         $cover = Pdf::loadView('ekin.hasil_skp.cover', [
             'periode' => $periode,
@@ -159,7 +161,6 @@ class Ekin extends Controller
 
 
         $cover = Pdf::loadView('ekin.hasil_skp.hal2', [
-            'chart' => $chart,
             'periode' => $periode,
             'nama_penilai' => $nama_penilai,
             'jabatan_penilai' => $jabatan_penilai,
@@ -191,7 +192,10 @@ class Ekin extends Controller
             ->setPaper('a4', 'potrait')->output();
         $pdfMerger->addString($cover);
 
+
+        // Lakukan merge dan simpan hasilnya
         $pdfMerger->merge();
+
         $mergedPdf = $pdfMerger->output();
 
         return response($mergedPdf, 200)
