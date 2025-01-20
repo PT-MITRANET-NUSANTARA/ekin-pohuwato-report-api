@@ -151,7 +151,7 @@
         <img class="logo" style="width: 80px; margin-bottom: 12px" src="{{ public_path('image/garuda.png') }}"
             alt="Logo Garuda">
         <div class="title">DOKUMEN EVALUASI KINERJA PEGAWA</div>
-        <div class="title">PERIODE : {{$periode}}</div>
+        <div class="title">PERIODE : {{$periode['name']}}</div>
     </div>
     <hr style="margin-top: 12px; margin-bottom: 12px">
     <table className="w-full" style="font-size: 6px; width: 100%;">
@@ -162,7 +162,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td style="text-align: right;">1 JANUARI SD 31 JANUARI TAHUN 2024</td>
+                <td style="text-align: right;">{{ $start }} s.d {{ $end }}</td>
             </tr>
         </tbody>
     </table>
@@ -173,46 +173,47 @@
             </tr>
             <tr>
                 <td>Nama</td>
-                <td>{{$nama_dinilai}}</td>
+                <td>{{ $bawahan['nama_asn'] }}</td>
             </tr>
             <tr>
                 <td>NIP</td>
-                <td>{{$nip_dinilai}}</td>
+                <td>{{ $bawahan['id_asn'] }}</td>
             </tr>
             <tr>
                 <td>PANGKAT/GOL RUANG</td>
-                <td>{{$pangkat_dinilai}}</td>
+                <td>PANGKAT/GOL RUANG</td>
             </tr>
             <tr>
                 <td>JABATAN</td>
-                <td>{{$jabatan_dinilai}}</td>
+                <td>{{ $bawahan['nama_jabatan'] }}</td>
             </tr>
             <tr>
                 <td>UNIT KERJA</td>
-                <td>{{$unit_dinilai}}</td>
+                <td>{{ $bawahan['unor']['nama'] }}</td>
             </tr>
             <tr>
                 <td colspan="2">Pejabat Penilai Kinerja</td>
             </tr>
             <tr>
                 <td>Nama</td>
-                <td>{{$nama_penilai}}</td>
+                <td>{{ $bawahan['unor']['atasan']['asn']['nama_atasan'] }}</td>
             </tr>
             <tr>
                 <td>NIP</td>
-                <td>{{$nip_penilai}}</td>
+                <td>{{ $bawahan['unor']['atasan']['asn']['nip_atasan'] }}</td>
             </tr>
             <tr>
                 <td>PANGKAT/GOL RUANG</td>
-                <td>{{$pangkat_penilai}}</td>
+                <td>PANGKAT/GOL RUANG</td>
+
             </tr>
             <tr>
                 <td>JABATAN</td>
-                <td>{{$jabatan_penilai}}</td>
+                <td>{{ $bawahan['unor']['atasan']['unor_jabatan'] }}</td>
             </tr>
             <tr>
                 <td>UNIT KERJA</td>
-                <td>{{$unit_penilai}}</td>
+                <td>{{ $bawahan['unor']['atasan']['unor_nama'] }}</td>
             </tr>
         </tbody>
     </table>
@@ -227,16 +228,16 @@
                 <td></td>
             </tr>
             <tr class="title-row">
-                <td>{{$jabatan_dinilai}}</td>
-                <td>{{$jabatan_penilai}}</td>
+                <td>{{ $bawahan['nama_jabatan'] }}</td>
+                <td>{{ $bawahan['unor']['atasan']['unor_jabatan'] }}</td>
             </tr>
             <tr class="name-row">
-                <td>{{$nama_dinilai}}</td>
-                <td>{{$nama_penilai}}</td>
+                <td>{{ $bawahan['nama_asn'] }}</td>
+                <td>{{ $bawahan['unor']['atasan']['asn']['nama_atasan'] }}</td>
             </tr>
             <tr class="id-row">
-                <td>{{$nip_dinilai}}</td>
-                <td>{{$nip_penilai}}</td>
+                <td>{{ $bawahan['id_asn'] }}</td>
+                <td>{{ $bawahan['unor']['atasan']['asn']['nip_atasan'] }}</td>
             </tr>
         </tbody>
     </table>
