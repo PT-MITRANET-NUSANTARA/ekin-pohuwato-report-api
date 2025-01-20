@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
-
+use Carbon\Carbon;
 class Ekin extends Controller
 {
     public function perjanjianKinerja(Request $request)
@@ -16,7 +16,9 @@ class Ekin extends Controller
         $nama_pihak_kedua = $request->input('nama_pihak_kedua', '');
         $jabatan_pihak_kedua = $request->input('jabatan_pihak_kedua', '');
         $nip_pihak_kedua = $request->input('nip_pihak_kedua', '');
-
+        $badan = $request->input('badan', '');
+        $tanggal = Carbon::parse($request->input('tanggal', now()));
+        $tahun = '2020';
         $pdfMerger = PDFMerger::init();
 
         $kop_surat = Pdf::loadView('ekin.perjanjian_kinerja.kop_surat', compact(
@@ -25,7 +27,10 @@ class Ekin extends Controller
             'nip_pihak_pertama',
             'nama_pihak_kedua',
             'jabatan_pihak_kedua',
-            'nip_pihak_kedua'
+            'nip_pihak_kedua',
+            'tahun',
+            'badan',
+            
         ))->setPaper('a4', 'portrait')->output();
         $pdfMerger->addString($kop_surat);
 
@@ -35,7 +40,9 @@ class Ekin extends Controller
             'nip_pihak_pertama',
             'nama_pihak_kedua',
             'jabatan_pihak_kedua',
-            'nip_pihak_kedua'
+            'nip_pihak_kedua',
+            'badan',
+            'tahun'
         ))->setPaper('a4', 'portrait')->output();
         $pdfMerger->addString($isi);
 

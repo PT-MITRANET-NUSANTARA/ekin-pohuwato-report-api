@@ -13,3 +13,4 @@ Route::get('/matriks_peran_hasil', [Ekin::class, 'matriksPeranHasil']);
 Route::get('/hasil_skp', [Ekin::class, 'hasilSkp']);
 Route::get('/form_penilaian', [Ekin::class, 'formPenilaian']);
 Route::get('/rencana_skp', [Ekin::class, 'rencanaSkp']);
+
