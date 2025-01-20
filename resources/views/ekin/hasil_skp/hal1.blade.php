@@ -158,7 +158,7 @@
 <body>
     <div class="title-wrapper" style="margin-top: 2rem; margin-bottom: 2rem">
         <div class="title">SASARAN KINERJA PEGAWAI</div>
-        <div class="title">PENDEKATAN HASIL KINERJA KUANTITATIF</div>
+        <div class="title">PENDEKATAN HASIL KINERJA {{$skp['pendekatan']}}</div>
         <div class="title">BAGI PEJABAT ADMINISTRASI DAN PEJABAT FUNGSIONAL</div>
         <div class="title">PERIODE :{{$periode}}</div>
     </div>

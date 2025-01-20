@@ -158,10 +158,10 @@ class Ekin extends Controller
             $tahun = Carbon::parse($request->input('periodeEnd', now()))->year;
 
             Log::info('Memproses SKP:', [
-                // 'atasan' => $atasan,
+                'atasan' => $atasan,
                 // 'bawahan' => $bawahan,
                 // 'skp' => $skp,
-                'realisasi' => $realisasi,
+                // 'realisasi' => $realisasi,
                 // 'periode' => $periode,
                 // 'start' => $start,
                 // 'end' => $end,
@@ -175,9 +175,9 @@ class Ekin extends Controller
             $pdfMerger->addString($cover);
 
 
-            // $hal1 = Pdf::loadView('ekin.hasil_skp.hal1', compact('atasan', 'bawahan', 'periode', 'skp'))
-            //     ->setPaper('a4', 'landscape')->output();
-            // $pdfMerger->addString($hal1);
+            $hal1 = Pdf::loadView('ekin.hasil_skp.hal1', compact('atasan', 'bawahan', 'periode', 'skp', 'start', 'end', 'tahun'))
+                ->setPaper('a4', 'landscape')->output();
+            $pdfMerger->addString($hal1);
 
 
             // $hal2 = Pdf::loadView('ekin.hasil_skp.hal2', compact('atasan', 'bawahan', 'periode', 'skp'))
