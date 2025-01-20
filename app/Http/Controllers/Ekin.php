@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
+
 class Ekin extends Controller
 {
     public function perjanjianKinerja(Request $request)
@@ -26,7 +28,7 @@ class Ekin extends Controller
             'jabatan_pihak_kedua',
             'tahun',
             'badan',
-            
+
         ))->setPaper('a4', 'portrait')->output();
         $pdfMerger->addString($kop_surat);
 
@@ -118,7 +120,27 @@ class Ekin extends Controller
         $pangkat_dinilai = '';
         $pangkat_penilai = '';
 
-       
+        $response = Http::get('https://quickchart.io/chart', [
+            'c' => json_encode([
+                'type' => 'bar',
+                'data' => [
+                    'labels' => ['January', 'February', 'March', 'April', 'May'],
+                    'datasets' => [
+                        [
+                            'label' => 'Sales',
+                            'data' => [120, 150, 180, 200, 170]
+                        ]
+                    ]
+                ]
+            ]),
+            'format' => 'png',
+            'bkg' => 'transparent'
+        ]);
+        
+        $chartBase64 = base64_encode($response->body());
+        $chartUrl = 'data:image/png;base64,' . $chartBase64;
+        
+
         // Generate PDF content
         $cover = Pdf::loadView('ekin.hasil_skp.cover', [
             'periode' => $periode,
@@ -132,6 +154,7 @@ class Ekin extends Controller
             'nip_dinilai' => $nip_dinilai,
             'unit_dinilai' => $unit_dinilai,
             'pangkat_dinilai' => $pangkat_dinilai,
+            'chartUrl' => $chartUrl,
         ])
             ->setPaper('a4', 'potrait')->output();
         $pdfMerger->addString($cover);
@@ -149,6 +172,7 @@ class Ekin extends Controller
             'nip_dinilai' => $nip_dinilai,
             'unit_dinilai' => $unit_dinilai,
             'pangkat_dinilai' => $pangkat_dinilai,
+            'chartUrl' => $chartUrl,
         ])
             ->setPaper('a4', 'landscape')->output();
         $pdfMerger->addString($cover);
@@ -166,6 +190,7 @@ class Ekin extends Controller
             'nip_dinilai' => $nip_dinilai,
             'unit_dinilai' => $unit_dinilai,
             'pangkat_dinilai' => $pangkat_dinilai,
+            'chartUrl' => $chartUrl,
         ])
             ->setPaper('a4', 'landscape')->output();
         $pdfMerger->addString($cover);
@@ -182,6 +207,7 @@ class Ekin extends Controller
             'nip_dinilai' => $nip_dinilai,
             'unit_dinilai' => $unit_dinilai,
             'pangkat_dinilai' => $pangkat_dinilai,
+            'chartUrl' => $chartUrl,
         ])
             ->setPaper('a4', 'potrait')->output();
         $pdfMerger->addString($cover);
