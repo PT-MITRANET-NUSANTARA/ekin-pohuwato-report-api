@@ -121,11 +121,11 @@
                 <tbody>
                     <tr>
                         <td style="vertical-align: top; width: 80px">Nama </td>
-                        <td>:{{ $nama_pihak_pertama }}</td>
+                        <td>: {{ $nama_pihak_pertama }}</td>
                     </tr>
                     <tr>
                         <td style="vertical-align: top; width: 80px">Jabatan</td>
-                        <td>:{{ $jabatan_pihak_pertama }}</td>
+                        <td>: {{ $jabatan_pihak_pertama }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -134,11 +134,11 @@
                 <tbody>
                     <tr>
                         <td style="vertical-align: top; width: 80px">Nama </td>
-                        <td>:{{ $nama_pihak_kedua }}</td>
+                        <td>: {{ $nama_pihak_kedua }}</td>
                     </tr>
                     <tr>
                         <td style="vertical-align: top; width: 80px">Jabatan</td>
-                        <td>:{{ $jabatan_pihak_kedua }}</td>
+                        <td>: {{ $jabatan_pihak_kedua }}</td>
                     </tr>
                 </tbody>
             </table>

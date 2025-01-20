@@ -160,25 +160,32 @@
         <tbody>
             @foreach ($tujuan as $index => $item)
                 <tr>
-                    <td rowspan="{{ count($item['indikator_kinerja'] ?? []) + 1 }}">{{ $loop->iteration }}</td>
-
-                    <td rowspan="{{ count($item['indikator_kinerja'] ?? []) + 1 }}">{{ $item['sasaran_strategis'] }}
+                    <td rowspan="{{ max(count($item['indikator_kinerja'] ?? []), 1) }}">{{ $loop->iteration }}</td>
+                    <td rowspan="{{ max(count($item['indikator_kinerja'] ?? []), 1) }}">{{ $item['sasaran_strategis'] }}
                     </td>
-                    @foreach ($item['indikator_kinerja'] as $indikator)
-                        <td>{{ $indikator['name'] }}</td>
-                        <td>{{ $indikator['target'] }}</td>
-                    @endforeach
-                    @foreach ($item['indikator_kinerja'] as $indikator)
-                    <td>{{ $indikator['name'] }}</td>
-                    <td>{{ $indikator['target'] }}</td>
-                @endforeach
-
-
-
+                    @if (!empty($item['indikator_kinerja']) && count($item['indikator_kinerja']) > 0)
+                        <td>{{ $item['indikator_kinerja'][0]['name'] }}</td>
+                        <td>{{ $item['indikator_kinerja'][0]['target'] }}</td>
+                    @else
+                        <td colspan="2">No indicators available</td>
+                    @endif
                 </tr>
-            @endforeach
 
+                @if (!empty($item['indikator_kinerja']) && count($item['indikator_kinerja']) > 1)
+                    @foreach ($item['indikator_kinerja'] as $key => $indikator)
+                        @if ($key > 0)
+                            {{-- Skip the first item as it is already displayed above --}}
+                            <tr>
+                                <td>{{ $indikator['name'] }}</td>
+                                <td>{{ $indikator['target'] }}</td>
+                            </tr>
+                        @endif
+                    @endforeach
+                @endif
+            @endforeach
         </tbody>
+
+
     </table>
     <table style="width: 100%; margin-bottom: 4rem">
         <thead style="width: 100%">
@@ -192,9 +199,9 @@
         <tbody>
             @foreach ($program as $item)
                 <tr>
-                    <td>{{$loop->iteration}}</td>
-                    <td>{{$item['name']}}</td>
-                    <td>Rp. {{$item['total_anggaran']}}</td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item['name'] }}</td>
+                    <td>Rp. {{ $item['total_anggaran'] }}</td>
                     <td>APBD</td>
                 </tr>
             @endforeach
