@@ -166,6 +166,24 @@
             </tr>
         </tbody>
     </table>
+    <table style="width: 100%; margin-bottom: 4rem">
+        <thead style="width: 100%">
+            <tr style="width: 100%; font-weight: bold">
+                <td style=""></td>
+                <td>PROGRAM</td>
+                <td>ANGGARAN</td>
+                <td>KET</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>sample program</td>
+                <td>sample anggaran</td>
+                <td>sample keterangan</td>
+            </tr>
+        </tbody>
+    </table>
 
     <table class="table-evaluasi">
         <tbody>
@@ -184,10 +202,6 @@
             <tr class="name-row">
                 <td>{{$nama_pihak_pertama}}</td>
                 <td>{{$nama_pihak_kedua}}</td>
-            </tr>
-            <tr class="id-row">
-                <td>{{$nip_pihak_pertama}}</td>
-                <td>{{$nip_pihak_kedua}}</td>
             </tr>
         </tbody>
     </table>

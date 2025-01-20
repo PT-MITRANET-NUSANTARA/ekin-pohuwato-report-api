@@ -12,10 +12,8 @@ class Ekin extends Controller
     {
         $nama_pihak_pertama = $request->input('nama_pihak_pertama', '');
         $jabatan_pihak_pertama = $request->input('jabatan_pihak_pertama', '');
-        $nip_pihak_pertama = $request->input('nip_pihak_pertama', '');
         $nama_pihak_kedua = $request->input('nama_pihak_kedua', '');
         $jabatan_pihak_kedua = $request->input('jabatan_pihak_kedua', '');
-        $nip_pihak_kedua = $request->input('nip_pihak_kedua', '');
         $badan = $request->input('badan', '');
         $tanggal = Carbon::parse($request->input('tanggal', now()));
         $tahun = $tanggal->year;
@@ -28,10 +26,8 @@ class Ekin extends Controller
         $kop_surat = Pdf::loadView('ekin.perjanjian_kinerja.kop_surat', compact(
             'nama_pihak_pertama',
             'jabatan_pihak_pertama',
-            'nip_pihak_pertama',
             'nama_pihak_kedua',
             'jabatan_pihak_kedua',
-            'nip_pihak_kedua',
             'tahun',
             'badan',
             'program',
@@ -43,10 +39,8 @@ class Ekin extends Controller
         $isi = Pdf::loadView('ekin.perjanjian_kinerja.isi', compact(
             'nama_pihak_pertama',
             'jabatan_pihak_pertama',
-            'nip_pihak_pertama',
             'nama_pihak_kedua',
             'jabatan_pihak_kedua',
-            'nip_pihak_kedua',
             'badan',
             'tahun'
         ))->setPaper('a4', 'portrait')->output();
@@ -290,7 +284,7 @@ class Ekin extends Controller
             'unit_dinilai' => $unit_dinilai,
             'pangkat_dinilai' => $pangkat_dinilai,
         ])
-            ->setPaper('a4', 'portrait')
+            ->setPaper('a4', 'landscape')
             ->output();
 
         // Add the generated content to the PDFMerger
@@ -305,5 +299,4 @@ class Ekin extends Controller
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'inline; filename="rencana_skp.pdf"');
     }
-
 }
