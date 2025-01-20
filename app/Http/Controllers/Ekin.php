@@ -18,8 +18,12 @@ class Ekin extends Controller
         $nip_pihak_kedua = $request->input('nip_pihak_kedua', '');
         $badan = $request->input('badan', '');
         $tanggal = Carbon::parse($request->input('tanggal', now()));
-        $tahun = '2020';
+        $tahun = $tanggal->year;
         $pdfMerger = PDFMerger::init();
+        // $program = $request->input('program', []);
+        // $tujuan = $request->input('tujuan', []);
+        // dump($program, $tujuan);
+
 
         $kop_surat = Pdf::loadView('ekin.perjanjian_kinerja.kop_surat', compact(
             'nama_pihak_pertama',
@@ -30,6 +34,8 @@ class Ekin extends Controller
             'nip_pihak_kedua',
             'tahun',
             'badan',
+            'program',
+            'tujuam',
             
         ))->setPaper('a4', 'portrait')->output();
         $pdfMerger->addString($kop_surat);
