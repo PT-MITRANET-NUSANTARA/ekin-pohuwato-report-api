@@ -144,8 +144,8 @@
 <body>
     <div class="title-wrapper" style="margin-top: 2rem">
         <div class="title">PERJANJIAN KINERJA</div>
-        <div class="title">{{$tahun}}</div>
-        <div class="title" style="padding-block: 6rem">{{$badan}}</div>
+        <div class="title">{{ $tahun }}</div>
+        <div class="title" style="padding-block: 6rem">{{ $badan }}</div>
         <div class="title" style="padding-block: 6rem">KABUPATEN POHUWATO</div>
     </div>
     <table class="table-sasaran">
@@ -158,12 +158,26 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>test</td>
-                <td>test</td>
-                <td>test</td>
-            </tr>
+            @foreach ($tujuan as $index => $item)
+                <tr>
+                    <td rowspan="{{ count($item['indikator_kinerja'] ?? []) + 1 }}">{{ $loop->iteration }}</td>
+
+                    <td rowspan="{{ count($item['indikator_kinerja'] ?? []) + 1 }}">{{ $item['sasaran_strategis'] }}
+                    </td>
+                    @foreach ($item['indikator_kinerja'] as $indikator)
+                        <td>{{ $indikator['name'] }}</td>
+                        <td>{{ $indikator['target'] }}</td>
+                    @endforeach
+                    @foreach ($item['indikator_kinerja'] as $indikator)
+                    <td>{{ $indikator['name'] }}</td>
+                    <td>{{ $indikator['target'] }}</td>
+                @endforeach
+
+
+
+                </tr>
+            @endforeach
+
         </tbody>
     </table>
     <table style="width: 100%; margin-bottom: 4rem">
@@ -176,12 +190,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>sample program</td>
-                <td>sample anggaran</td>
-                <td>sample keterangan</td>
-            </tr>
+            @foreach ($program as $item)
+                <tr>
+                    <td>{{$loop->iteration}}</td>
+                    <td>{{$item['name']}}</td>
+                    <td>Rp. {{$item['total_anggaran']}}</td>
+                    <td>APBD</td>
+                </tr>
+            @endforeach
+
         </tbody>
     </table>
 
@@ -196,12 +213,12 @@
                 <td></td>
             </tr>
             <tr class="title-row">
-                <td>{{$jabatan_pihak_pertama}}</td>
-                <td>{{$jabatan_pihak_kedua}}</td>
+                <td>{{ $jabatan_pihak_pertama }}</td>
+                <td>{{ $jabatan_pihak_kedua }}</td>
             </tr>
             <tr class="name-row">
-                <td>{{$nama_pihak_pertama}}</td>
-                <td>{{$nama_pihak_kedua}}</td>
+                <td>{{ $nama_pihak_pertama }}</td>
+                <td>{{ $nama_pihak_kedua }}</td>
             </tr>
         </tbody>
     </table>

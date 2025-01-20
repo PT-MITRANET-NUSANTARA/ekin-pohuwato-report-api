@@ -8,47 +8,90 @@ use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 
+use Illuminate\Support\Facades\Log;
 class Ekin extends Controller
 {
+  
+    
     public function perjanjianKinerja(Request $request)
     {
-        $nama_pihak_pertama = $request->input('nama_pihak_pertama', '');
-        $jabatan_pihak_pertama = $request->input('jabatan_pihak_pertama', '');
-        $nama_pihak_kedua = $request->input('nama_pihak_kedua', '');
-        $jabatan_pihak_kedua = $request->input('jabatan_pihak_kedua', '');
-        $badan = $request->input('badan', '');
-        $tanggal = Carbon::parse($request->input('tanggal', now()));
-        $tahun = '2020';
-        $pdfMerger = PDFMerger::init();
+        try {
+            $nama_pihak_pertama = $request->input('nama_pihak_pertama', '');
+            $jabatan_pihak_pertama = $request->input('jabatan_pihak_pertama', '');
+            $nama_pihak_kedua = $request->input('nama_pihak_kedua', '');
+            $jabatan_pihak_kedua = $request->input('jabatan_pihak_kedua', '');
+            $badan = $request->input('badan', '');
+            $tanggal = Carbon::parse($request->input('tanggal', now()));
+            $tahun = $tanggal->year;
+    
+            $program = $request->input('program', []);
+            $tujuan = $request->input('tujuan', []);
+    
+            Log::info('PROGAM:', [
+                'program' => $program[0]['name'],
+            ]);
+            // Log::info('Data Types:', [
+            //     'program' => gettype($program[0]),
+            //     'tujuan' => gettype($tujuan[0])
+            // ]);
 
-        $kop_surat = Pdf::loadView('ekin.perjanjian_kinerja.kop_surat', compact(
-            'nama_pihak_pertama',
-            'jabatan_pihak_pertama',
-            'nama_pihak_kedua',
-            'jabatan_pihak_kedua',
-            'tahun',
-            'badan',
-
-        ))->setPaper('a4', 'portrait')->output();
-        $pdfMerger->addString($kop_surat);
-
-        $isi = Pdf::loadView('ekin.perjanjian_kinerja.isi', compact(
-            'nama_pihak_pertama',
-            'jabatan_pihak_pertama',
-            'nama_pihak_kedua',
-            'jabatan_pihak_kedua',
-            'badan',
-            'tahun'
-        ))->setPaper('a4', 'portrait')->output();
-        $pdfMerger->addString($isi);
-
-        $pdfMerger->merge();
-        $mergedPdf = $pdfMerger->output();
-
-        return response($mergedPdf, 200)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'inline; filename="perjanjian_kinerja.pdf"');
+            // // Log request data for debugging
+            // Log::info('Processing Perjanjian Kinerja', [
+            //     'nama_pihak_pertama' => $nama_pihak_pertama,
+            //     'jabatan_pihak_pertama' => $jabatan_pihak_pertama,
+            //     'nama_pihak_kedua' => $nama_pihak_kedua,
+            //     'jabatan_pihak_kedua' => $jabatan_pihak_kedua,
+            //     'badan' => $badan,
+            //     'tahun' => $tahun,
+            //     'program' => $program,
+            //     'tujuan' => $tujuan
+            // ]);
+    
+            $pdfMerger = PDFMerger::init();
+    
+            $kop_surat = Pdf::loadView('ekin.perjanjian_kinerja.kop_surat', compact(
+                'nama_pihak_pertama',
+                'jabatan_pihak_pertama',
+                'nama_pihak_kedua',
+                'jabatan_pihak_kedua',
+                'tahun',
+                'badan',
+               
+            ))->setPaper('a4', 'portrait')->output();
+            $pdfMerger->addString($kop_surat);
+    
+            $isi = Pdf::loadView('ekin.perjanjian_kinerja.isi', compact(
+                'nama_pihak_pertama',
+                'jabatan_pihak_pertama',
+                'nama_pihak_kedua',
+                'jabatan_pihak_kedua',
+                'badan',
+                'tahun',
+                 'program',
+                'tujuan'
+            ))->setPaper('a4', 'portrait')->output();
+            $pdfMerger->addString($isi);
+    
+            $pdfMerger->merge();
+            $mergedPdf = $pdfMerger->output();
+    
+            return response($mergedPdf, 200)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'inline; filename="perjanjian_kinerja.pdf"');
+    
+        } catch (\Exception $e) {
+            // Log error details
+            Log::error('Error in Perjanjian Kinerja: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+    
+            return response()->json([
+                'error' => 'Terjadi kesalahan saat membuat Perjanjian Kinerja. Silakan coba lagi.',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
+    
 
 
 
