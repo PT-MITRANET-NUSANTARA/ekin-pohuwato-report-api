@@ -153,10 +153,7 @@
                     <td style="width: 50%;">{{$nama_pihak_pertama}}</td>
                     <td style="width: 50%;">{{$nama_pihak_kedua}}</td>
                 </tr>
-                <tr style="width: 50%;">
-                    <td style="width: 50%;">{{$nip_pihak_pertama}}</td>
-                    <td style="width: 50%;">{{$nip_pihak_kedua}}</td>
-                </tr>
+        
             </tbody>
         </table>
 
