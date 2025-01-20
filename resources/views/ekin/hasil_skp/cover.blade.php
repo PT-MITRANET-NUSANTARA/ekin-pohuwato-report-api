@@ -151,25 +151,25 @@
     <div class="title-wrapper" style="margin-top: 2rem">
         <img class="logo" style="width: 120px; margin-bottom: 12px" src="{{ public_path('image/garuda.png') }}"
             alt="Logo Garuda">
-        <div class="title" style="margin-top: 6rem">DOKUMEN EVALUASI KINERJA PEGAWA</div>
-        <div class="title">PERIODE : {{$periode}}</div>
+        <div class="title" style="margin-top: 6rem">DOKUMEN EVALUASI KINERJA PEGAWAI</div>
+        <div class="title">PERIODE : {{$periode['name']}}</div>
     </div>
     <div class="title-wrapper" style="margin-top: 6rem">
         <div class="title">Jangka Waktu Penilaian</div>
-        <div class="title">01 Januari 2022 s.d 31 Desember 2022</div>
+        <div class="title">{{$start}} s.d {{$end}}</div>
     </div>
     <div class="title-wrapper" style="margin-top: 6rem">
-        <div>Nama: {{$nama_penilai}}</div>
-        <div>NIP: {{$nip_penilai}}</div>
-        <div>Pangkat/Gol.Ruang: {{$pangkat_penilai}}</div>
-        <div>Jabatan: {{$jabatan_penilai}}</div>
-        <div>NIP: {{$nip_penilai}}</div>
-        <div>Unit Kerja: {{$unit_penilai}}</div>
+        <div>Nama: {{$atasan['nama_asn']}}</div>
+        <div>NIP: {{$atasan['id_asn']}}</div>
+        <div>Pangkat/Gol.Ruang:  Penata Tingkat I / III/d</div>
+        <div>Jabatan: {{$atasan['nama_jabatan']}}</div>
+        <div>NIP: {{$atasan['id_asn']}}</div>
+        <div>Unit Kerja: {{$atasan['unor']['nama']}}</div>
     </div>
     <div class="title-wrapper" style="margin-top: 6rem">
         <div class="title">BADAN KEPEGAWAIAN PENDIDIKAN DAN PELATIHAN</div>
         <div class="title">KABUPATEN POHUWATO</div>
-        <div class="title">TAHUN 2022</div>
+        <div class="title">TAHUN {{$tahun}}</div>
     </div>
 </body>
 

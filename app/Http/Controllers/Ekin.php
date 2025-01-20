@@ -9,8 +9,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 class Ekin extends Controller
 {
-  
-    
+
+
     public function perjanjianKinerja(Request $request)
     {
         try {
@@ -21,10 +21,10 @@ class Ekin extends Controller
             $badan = $request->input('badan', '');
             $tanggal = Carbon::parse($request->input('tanggal', now()));
             $tahun = $tanggal->year;
-    
+
             $program = $request->input('program', []);
             $tujuan = $request->input('tujuan', []);
-    
+
             Log::info('PROGAM:', [
                 'program' => $program[0]['name'],
             ]);
@@ -44,9 +44,9 @@ class Ekin extends Controller
             //     'program' => $program,
             //     'tujuan' => $tujuan
             // ]);
-    
+
             $pdfMerger = PDFMerger::init();
-    
+
             $kop_surat = Pdf::loadView('ekin.perjanjian_kinerja.kop_surat', compact(
                 'nama_pihak_pertama',
                 'jabatan_pihak_pertama',
@@ -54,10 +54,10 @@ class Ekin extends Controller
                 'jabatan_pihak_kedua',
                 'tahun',
                 'badan',
-               
+
             ))->setPaper('a4', 'portrait')->output();
             $pdfMerger->addString($kop_surat);
-    
+
             $isi = Pdf::loadView('ekin.perjanjian_kinerja.isi', compact(
                 'nama_pihak_pertama',
                 'jabatan_pihak_pertama',
@@ -65,31 +65,31 @@ class Ekin extends Controller
                 'jabatan_pihak_kedua',
                 'badan',
                 'tahun',
-                 'program',
+                'program',
                 'tujuan'
             ))->setPaper('a4', 'portrait')->output();
             $pdfMerger->addString($isi);
-    
+
             $pdfMerger->merge();
             $mergedPdf = $pdfMerger->output();
-    
+
             return response($mergedPdf, 200)
                 ->header('Content-Type', 'application/pdf')
                 ->header('Content-Disposition', 'inline; filename="perjanjian_kinerja.pdf"');
-    
+
         } catch (\Exception $e) {
             // Log error details
             Log::error('Error in Perjanjian Kinerja: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
-    
+
             return response()->json([
                 'error' => 'Terjadi kesalahan saat membuat Perjanjian Kinerja. Silakan coba lagi.',
                 'message' => $e->getMessage()
             ], 500);
         }
     }
-    
+
 
 
 
@@ -146,98 +146,70 @@ class Ekin extends Controller
 
     public function hasilSkp(Request $request)
     {
-        $pdfMerger = PDFMerger::init();
+        try {
+            $pdfMerger = PDFMerger::init();
+            $atasan = $request->input('atasan');
+            $bawahan = $request->input('bawahan');
+            $skp = $request->input('skp');
+            $realisasi = $request->input('realisasi');
+            $periode = $request->input('periode');
+            $start = Carbon::parse($request->input('periodeStart', now()))->format('Y-m-d');
+            $end = Carbon::parse($request->input('periodeEnd', now()))->format('Y-m-d');
+            $tahun = Carbon::parse($request->input('periodeEnd', now()))->year;
+
+            Log::info('Memproses SKP:', [
+                // 'atasan' => $atasan,
+                // 'bawahan' => $bawahan,
+                // 'skp' => $skp,
+                'realisasi' => $realisasi,
+                // 'periode' => $periode,
+                // 'start' => $start,
+                // 'end' => $end,
+                // 'tahun' => $tahun
+            ]);
 
 
-        $periode = '';
-        $nama_penilai = '';
-        $jabatan_penilai = '';
-        $nip_penilai = '';
-        $unit_penilai = '';
-        $nama_dinilai = '';
-        $jabatan_dinilai = '';
-        $nip_dinilai = '';
-        $unit_dinilai = '';
-        $pangkat_dinilai = '';
-        $pangkat_penilai = '';
-
-       
-        // Generate PDF content
-        $cover = Pdf::loadView('ekin.hasil_skp.cover', [
-            'periode' => $periode,
-            'nama_penilai' => $nama_penilai,
-            'jabatan_penilai' => $jabatan_penilai,
-            'nip_penilai' => $nip_penilai,
-            'unit_penilai' => $unit_penilai,
-            'pangkat_penilai' => $pangkat_penilai,
-            'nama_dinilai' => $nama_dinilai,
-            'jabatan_dinilai' => $jabatan_dinilai,
-            'nip_dinilai' => $nip_dinilai,
-            'unit_dinilai' => $unit_dinilai,
-            'pangkat_dinilai' => $pangkat_dinilai,
-        ])
-            ->setPaper('a4', 'potrait')->output();
-        $pdfMerger->addString($cover);
+            // Generate PDF content
+            $cover = Pdf::loadView('ekin.hasil_skp.cover', compact('atasan', 'bawahan', 'periode', 'skp', 'start', 'end', 'tahun'))
+                ->setPaper('a4', 'potrait')->output();
+            $pdfMerger->addString($cover);
 
 
-        $cover = Pdf::loadView('ekin.hasil_skp.hal1', [
-            'periode' => $periode,
-            'nama_penilai' => $nama_penilai,
-            'jabatan_penilai' => $jabatan_penilai,
-            'nip_penilai' => $nip_penilai,
-            'unit_penilai' => $unit_penilai,
-            'pangkat_penilai' => $pangkat_penilai,
-            'nama_dinilai' => $nama_dinilai,
-            'jabatan_dinilai' => $jabatan_dinilai,
-            'nip_dinilai' => $nip_dinilai,
-            'unit_dinilai' => $unit_dinilai,
-            'pangkat_dinilai' => $pangkat_dinilai,
-        ])
-            ->setPaper('a4', 'landscape')->output();
-        $pdfMerger->addString($cover);
+            // $hal1 = Pdf::loadView('ekin.hasil_skp.hal1', compact('atasan', 'bawahan', 'periode', 'skp'))
+            //     ->setPaper('a4', 'landscape')->output();
+            // $pdfMerger->addString($hal1);
 
 
-        $cover = Pdf::loadView('ekin.hasil_skp.hal2', [
-            'periode' => $periode,
-            'nama_penilai' => $nama_penilai,
-            'jabatan_penilai' => $jabatan_penilai,
-            'nip_penilai' => $nip_penilai,
-            'unit_penilai' => $unit_penilai,
-            'pangkat_penilai' => $pangkat_penilai,
-            'nama_dinilai' => $nama_dinilai,
-            'jabatan_dinilai' => $jabatan_dinilai,
-            'nip_dinilai' => $nip_dinilai,
-            'unit_dinilai' => $unit_dinilai,
-            'pangkat_dinilai' => $pangkat_dinilai,
-        ])
-            ->setPaper('a4', 'landscape')->output();
-        $pdfMerger->addString($cover);
+            // $hal2 = Pdf::loadView('ekin.hasil_skp.hal2', compact('atasan', 'bawahan', 'periode', 'skp'))
+            //     ->setPaper('a4', 'landscape')->output();
+            // $pdfMerger->addString($hal2);
 
-        $cover = Pdf::loadView('ekin.hasil_skp.last', [
-            'periode' => $periode,
-            'nama_penilai' => $nama_penilai,
-            'jabatan_penilai' => $jabatan_penilai,
-            'nip_penilai' => $nip_penilai,
-            'unit_penilai' => $unit_penilai,
-            'pangkat_penilai' => $pangkat_penilai,
-            'nama_dinilai' => $nama_dinilai,
-            'jabatan_dinilai' => $jabatan_dinilai,
-            'nip_dinilai' => $nip_dinilai,
-            'unit_dinilai' => $unit_dinilai,
-            'pangkat_dinilai' => $pangkat_dinilai,
-        ])
-            ->setPaper('a4', 'potrait')->output();
-        $pdfMerger->addString($cover);
+            // $last = Pdf::loadView('ekin.hasil_skp.last', compact('atasan', 'bawahan', 'periode', 'skp'))
+            //     ->setPaper('a4', 'potrait')->output();
+            // $pdfMerger->addString($last);
 
 
-        // Lakukan merge dan simpan hasilnya
-        $pdfMerger->merge();
+            // Lakukan merge dan simpan hasilnya
+            $pdfMerger->merge();
+            $mergedPdf = $pdfMerger->output();
 
-        $mergedPdf = $pdfMerger->output();
+            return response($mergedPdf, 200)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'inline; filename="hasil_skp.pdf"');
+        } catch (\Exception $e) {
+            Log::error('Gagal memproses hasil SKP:', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
 
-        return response($mergedPdf, 200)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'inline; filename="hasil_skp.pdf"');
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat memproses SKP.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function formPenilaian()
