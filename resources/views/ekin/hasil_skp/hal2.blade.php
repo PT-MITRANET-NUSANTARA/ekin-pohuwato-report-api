@@ -375,7 +375,6 @@
                     <td>
                         {{ $loop->iteration }}
                     </td>
-
                     <td>
                         <div>
                             <b>
