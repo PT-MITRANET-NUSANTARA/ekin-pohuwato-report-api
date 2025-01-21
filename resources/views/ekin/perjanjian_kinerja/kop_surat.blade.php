@@ -99,8 +99,6 @@
         .details p {
             margin: 0.5em 0;
         }
-
-        
     </style>
 </head>
 
@@ -109,8 +107,8 @@
         <img class="logo" style="width: 120px" src="{{ public_path('image/pohuwato.jpg') }}" alt="Logo pohuwato">
         <div class="title-wrapper" style="margin-top: 2rem">
             <div class="title">PERJANJIAN KINERJA</div>
-            <div class="title">{{$tahun}}</div>
-            <div class="title" style="padding-block: 6rem">{{$badan}}</div>
+            <div class="title">{{ $tahun }}</div>
+            <div class="title" style="padding-block: 6rem">{{ $badan }}</div>
             <div class="title" style="padding-block: 6rem">KABUPATEN POHUWATO</div>
         </div>
 
@@ -119,11 +117,31 @@
             pada hasil, kami yang bertanda tangan dibawah ini :
         </p>
         <div class="details">
-            <p class="paragraf">Nama: {{$nama_pihak_pertama}}</p>
-            <p class="paragraf">Jabatan: {{$jabatan_pihak_pertama}}</p>
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="vertical-align: top; width: 80px">Nama </td>
+                        <td>: {{ $nama_pihak_pertama }}</td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top; width: 80px">Jabatan</td>
+                        <td>: {{ $jabatan_pihak_pertama }}</td>
+                    </tr>
+                </tbody>
+            </table>
             <p style="margin-top: 1rem">Selanjutnya disebut Pihak Pertama</p>
-            <p class="paragraf">Nama: {{$nama_pihak_kedua}}</p>
-            <p class="paragraf">Jabatan: {{$jabatan_pihak_kedua}}</p>
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="vertical-align: top; width: 80px">Nama </td>
+                        <td>: {{ $nama_pihak_kedua }}</td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top; width: 80px">Jabatan</td>
+                        <td>: {{ $jabatan_pihak_kedua }}</td>
+                    </tr>
+                </tbody>
+            </table>
             <p style="margin-top: 1rem">Selaku atasan langsung pihak pertama, selanjutnya disebut Pihak Kedua</p>
         </div>
         <p class="paragraf">
@@ -146,14 +164,14 @@
                     <td style="padding: 3rem 0; width: 50%;"></td>
                 </tr>
                 <tr style="width: 50%;">
-                    <td style="width: 50%;">{{$jabatan_pihak_pertama}}</td>
-                    <td style="width: 50%;">{{$jabatan_pihak_kedua}}</td>
+                    <td style="width: 50%;">{{ $jabatan_pihak_pertama }}</td>
+                    <td style="width: 50%;">{{ $jabatan_pihak_kedua }}</td>
                 </tr>
                 <tr style="width: 50%;">
-                    <td style="width: 50%;">{{$nama_pihak_pertama}}</td>
-                    <td style="width: 50%;">{{$nama_pihak_kedua}}</td>
+                    <td style="width: 50%;">{{ $nama_pihak_pertama }}</td>
+                    <td style="width: 50%;">{{ $nama_pihak_kedua }}</td>
                 </tr>
-        
+
             </tbody>
         </table>
 

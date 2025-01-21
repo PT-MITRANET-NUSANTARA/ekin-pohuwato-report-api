@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @page {
             margin-top: 2cm;
@@ -225,10 +226,15 @@
                     <div className="flex flex-col gap-y-2 p-4">
                         <div style="font-size: 8; text-align: left">Pola Distribusi :</div>
                         <div>
+<<<<<<< HEAD
                             <div style="font-size: 8; text-align: left">
                                 {{-- <Line data={penilaianChart} /> --}}
                                 {{-- Ini line chart --}}
                                 {{-- {!! $chart->container() !!} --}}
+=======
+                            <div style="font-size: 8; text-align: center">  
+                                <img src="{{ $chartUrl }}" alt="Chart" style="width: 240px; height: auto;">
+>>>>>>> 6d1faceebd63c67835e18173bd8979d1714ff4d1
                             </div>
                         </div>
                     </div>
@@ -451,8 +457,11 @@
             </tr>
         </tbody>
     </table>
+<<<<<<< HEAD
     {{-- <script src="{{ $chart->cdn() }}"></script>
     {{ $chart->script() }} --}}
+=======
+>>>>>>> 6d1faceebd63c67835e18173bd8979d1714ff4d1
 </body>
 
 

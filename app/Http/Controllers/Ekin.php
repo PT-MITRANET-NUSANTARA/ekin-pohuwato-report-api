@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
+
 use Illuminate\Support\Facades\Log;
 class Ekin extends Controller
 {
