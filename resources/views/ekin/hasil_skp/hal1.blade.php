@@ -95,6 +95,8 @@
             border-collapse: collapse;
             margin-top: 2rem;
             margin-bottom: 20px;
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
 
         .table-sasaran th,
@@ -103,11 +105,15 @@
             padding: 8px;
             text-align: center;
             vertical-align: middle;
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
 
         .table-sasaran th {
             background-color: #f2f2f2;
             font-weight: bold;
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
 
         .table-evaluasi {
@@ -235,26 +241,41 @@
             </tr>
             @foreach ($skp['rhks'] as $rhk)
                 <tr>
-                    <td>
+                    <td rowspan="{{ max(count($rhk['aspek'] ?? []), 1) }}">
                         {{ $loop->iteration }}
                     </td>
-                    <td>
+                    <td rowspan="{{ max(count($rhk['aspek'] ?? []), 1) }}">
                         {{ $rhk['desc'] }}
                     </td>
-                    <td>
+                    <td rowspan="{{ max(count($rhk['aspek'] ?? []), 1) }}">
                         <p>{{ $rhk['desc'] }}</p>
-                        <span>{{ $rhk['klasifikasi' ?? ''] }}</span>
+                        <span>{{ $rhk['klasifikasi'] ?? '' }}</span>
                     </td>
+                    @if (!empty($rhk['aspek']) && count($rhk['aspek']) > 0)
+                        {{-- Tampilkan aspek pertama --}}
+                        <td>{{ $rhk['aspek'][0]['jenis'] }}</td>
+                        <td>{{ $rhk['aspek'][0]['indikator'] }}</td>
+                        <td>{{ $rhk['aspek'][0]['target_tahunan']['target'] + $rhk['aspek'][0]['target_tahunan']['satuan'] }}</td>
+                    @else
+                        {{-- Jika tidak ada aspek --}}
+                        <td colspan="5">No aspek available</td>
+                    @endif
                 </tr>
-                @foreach ($rhk['aspek'] as $aspek)
-                    <tr>
-                        <td>{{ $aspek['jenis'] }}</td>
-                        <td>{{ $aspek['indikator'] }}</td>
-                        <td>{{ $aspek['target_tahunan']['target'] + $aspek['target_tahunan']['satuan'] }}</td>
-                    </tr>
-                @endforeach
+                {{-- Tampilkan aspek lainnya jika ada lebih dari 1 --}}
+                @if (!empty($rhk['aspek']) && count($rhk['aspek']) > 1)
+                    @foreach ($rhk['aspek'] as $key => $aspek)
+                        @if ($key > 0)
+                            {{-- Lewati aspek pertama yang sudah ditampilkan --}}
+                            <tr>
+                                <td>{{ $aspek['jenis'] }}</td>
+                                <td>{{ $aspek['indikator'] }}</td>
+                                <td>{{ $aspek['target_tahunan']['target'] + $aspek['target_tahunan']['satuan']}}</td>
+                                
+                            </tr>
+                        @endif
+                    @endforeach
+                @endif
             @endforeach
-
             {{-- {data?.rhks.map((item, index) => (
                 <>
                     <tr>
@@ -299,7 +320,7 @@
     <table class="table-sasaran" style="font-size: 10">
         <tbody>
             <tr>
-                <td colspan="4">
+                <td colspan="3">
                     Perilaku Kerja
                 </td>
             </tr>

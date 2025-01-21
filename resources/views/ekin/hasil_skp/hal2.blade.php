@@ -96,6 +96,8 @@
             border-collapse: collapse;
             margin-top: 2rem;
             margin-bottom: 20px;
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
 
         .table-sasaran th,
@@ -104,11 +106,15 @@
             padding: 8px;
             text-align: center;
             vertical-align: middle;
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
 
         .table-sasaran th {
             background-color: #f2f2f2;
             font-weight: bold;
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
 
         .table-evaluasi {
@@ -226,15 +232,10 @@
                     <div className="flex flex-col gap-y-2 p-4">
                         <div style="font-size: 8; text-align: left">Pola Distribusi :</div>
                         <div>
-<<<<<<< HEAD
                             <div style="font-size: 8; text-align: left">
                                 {{-- <Line data={penilaianChart} /> --}}
                                 {{-- Ini line chart --}}
                                 {{-- {!! $chart->container() !!} --}}
-=======
-                            <div style="font-size: 8; text-align: center">  
-                                <img src="{{ $chartUrl }}" alt="Chart" style="width: 240px; height: auto;">
->>>>>>> 6d1faceebd63c67835e18173bd8979d1714ff4d1
                             </div>
                         </div>
                     </div>
@@ -251,7 +252,7 @@
                 <td style="font-size: 8">UMPAN BALIK BERKELANJUTAN BERDASARKAN BUKTI DUKUNG</td>
             </tr>
             <tr>
-                <td colspan="6" style="text-align: left">
+                <td colspan="8" style="text-align: left">
                     Utama
                 </td>
             </tr>
@@ -281,26 +282,47 @@
             </tr> --}}
             @foreach ($skp['rhks'] as $rhk)
                 <tr>
-                    <td>
+                    <td rowspan="{{ max(count($rhk['aspek'] ?? []), 1) }}">
                         {{ $loop->iteration }}
                     </td>
-                    <td>
+                    <td rowspan="{{ max(count($rhk['aspek'] ?? []), 1) }}">
                         {{ $rhk['desc'] }}
                     </td>
-                    <td>
+                    <td rowspan="{{ max(count($rhk['aspek'] ?? []), 1) }}">
                         <p>{{ $rhk['desc'] }}</p>
-                        <span>{{ $rhk['klasifikasi' ?? ''] }}</span>
+                        <span>{{ $rhk['klasifikasi'] ?? '' }}</span>
                     </td>
+                    @if (!empty($rhk['aspek']) && count($rhk['aspek']) > 0)
+                        {{-- Tampilkan aspek pertama --}}
+                        <td>{{ $rhk['aspek'][0]['jenis'] }}</td>
+                        <td>{{ $rhk['aspek'][0]['indikator'] }}</td>
+                        <td>{{ $rhk['aspek'][0]['target_tahunan']['target'] ?? 0 }}
+                            {{ $rhk['aspek'][0]['target_tahunan']['satuan'] ?? '' }}</td>
+                        <td>{{ $realisasi[$rhk['_id']][$rhk['aspek'][0]['_id']] ?? '' }}</td>
+                        <td>{{ $rhk['aspek'][0]['feedback'][$periode['_id']]['feedback'] ?? '' }}</td>
+                    @else
+                        {{-- Jika tidak ada aspek --}}
+                        <td colspan="5">No aspek available</td>
+                    @endif
                 </tr>
-                @foreach ($rhk['aspek'] as $aspek)
-                    <tr>
-                        <td>{{ $aspek['jenis'] }}</td>
-                        <td>{{ $aspek['indikator'] }}</td>
-                        <td>{{ $aspek['target_tahunan']['target'] + $aspek['target_tahunan']['satuan'] }}</td>
-                        <td>{{$realisasi[$rhk['_id']][$aspek['_id']]}}</td>
-                    </tr>
-                @endforeach
+                {{-- Tampilkan aspek lainnya jika ada lebih dari 1 --}}
+                @if (!empty($rhk['aspek']) && count($rhk['aspek']) > 1)
+                    @foreach ($rhk['aspek'] as $key => $aspek)
+                        @if ($key > 0)
+                            {{-- Lewati aspek pertama yang sudah ditampilkan --}}
+                            <tr>
+                                <td>{{ $aspek['jenis'] }}</td>
+                                <td>{{ $aspek['indikator'] }}</td>
+                                <td>{{ $aspek['target_tahunan']['target'] ?? 0 }}
+                                    {{ $aspek['target_tahunan']['satuan'] ?? '' }}</td>
+                                <td>{{ $realisasi[$rhk['_id']][$aspek['_id']] ?? '' }}</td>
+                                <td>{{ $aspek['feedback'][$periode['_id']]['feedback'] ?? '' }}</td>
+                            </tr>
+                        @endif
+                    @endforeach
+                @endif
             @endforeach
+
 
             {{-- {data?.rhks.map((item, index) => (
                 <>
@@ -358,7 +380,7 @@
             </tr>
             <tr style="font-size: 8; text-align: left">
                 <td colspan="8" style="font-size: 8; text-align: left">
-                    Rating Hasil Kerja : {{$skp['hasil'][$periode['_id']]}}
+                    Rating Hasil Kerja : {{ $skp['hasil'][$periode['_id']] }}
                 </td>
             </tr>
         </tbody>
@@ -427,13 +449,13 @@
                 </tr>
             ))} --}}
             <tr style="font-size: 8; text-align: left">
-                <td colspan="8" style="font-size: 8; text-align: left">
-                    RATING PERILAKU KERJA : {{$skp['perilaku'][$periode['_id']]}}
+                <td colspan="4" style="font-size: 8; text-align: left">
+                    RATING PERILAKU KERJA : {{ $skp['perilaku'][$periode['_id']] }}
                 </td>
             </tr>
             <tr style="font-size: 8; text-align: left">
-                <td colspan="8" style="font-size: 8; text-align: left">
-                    PREDIKAT KINERJA PEGAWAI* : {{$skp['predikat'][$periode['_id']]}}
+                <td colspan="4" style="font-size: 8; text-align: left">
+                    PREDIKAT KINERJA PEGAWAI* : {{ $skp['predikat'][$periode['_id']] }}
                 </td>
             </tr>
         </tbody>
@@ -457,11 +479,8 @@
             </tr>
         </tbody>
     </table>
-<<<<<<< HEAD
     {{-- <script src="{{ $chart->cdn() }}"></script>
     {{ $chart->script() }} --}}
-=======
->>>>>>> 6d1faceebd63c67835e18173bd8979d1714ff4d1
 </body>
 
 
