@@ -19,7 +19,7 @@
         }
 
         * {
-            font-size: 12;
+            font-size: 10;
         }
 
         .heading-1 {
@@ -147,27 +147,51 @@
 
 
 <body
-    style="border: 1px solid black; display: flex; flex-direction: column; align-items: center; justify-content: space-between; height: 100vh;">
+    style="border: 1px solid black; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center">
     <div class="title-wrapper" style="margin-top: 2rem">
         <img class="logo" style="width: 120px; margin-bottom: 12px" src="{{ public_path('image/garuda.png') }}"
             alt="Logo Garuda">
-        <div class="title" style="margin-top: 6rem">PENILAIAN PRESTASI KERJA
-            PEGAWAI NEGERI SIPIL</div>
-        <div class="title">PERIODE : {{ $periode['name'] }}</div>
+        <div class="title" style="margin-top: 6rem">PENILAIAN PRESTASI KERJA</div>
+        <div class="title">PEGAWAI NEGERI SIPIL</div>
     </div>
-    <div class="title-wrapper" style="margin-top: 6rem">
+    <div class="title-wrapper" style="margin-top: 4rem">
         <div class="title">Jangka Waktu Penilaian</div>
         <div class="title">{{ $start }} s.d {{ $end }}</div>
     </div>
-    <div class="title-wrapper" style="margin-top: 6rem">
-        <div>Nama Pegawai: {{ $bawahan['nama_asn'] }}</div>
-        <div>NIP: {{ $bawahan['id_asn'] }}</div>
-        <div>Pangkat/Gol.Ruang: Penata Tingkat I / III/d</div>
-        <div>Jabatan: {{ $bawahan['nama_jabatan'] }}</div>
-        {{-- <div>NIP: {{$atasan['id_asn']}}</div> --}}
-        <div>Unit Kerja: {{ $bawahan['unor']['nama'] }}</div>
+    <div style="width: 100% ;text-align: center; margin-top: 4rem">
+        <table style="padding-right: 80px; padding-left: 80px">
+            <tbody>
+                <tr>
+                    <td style="padding: 6px">Nama Pegawai</td>
+                    <td>:</td>
+                    <td style="padding: 6px">{{ $bawahan['nama_asn'] }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px">NIP</td>
+                    <td>:</td>
+                    <td style="padding: 6px">{{ $bawahan['nama_jabatan'] }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px">Pangkat/Gol.Ruang</td>
+                    <td>:</td>
+                    <td style="padding: 6px">Penata Tingkat I / III/d</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px">Jabatan</td>
+                    <td>:</td>
+                    <td style="padding: 6px">{{ $bawahan['nama_jabatan'] }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 6px">Unit Kerja</td>
+                    <td>:</td>
+                    <td style="padding: 6px">{{ $bawahan['unor']['nama'] }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <div class="title-wrapper" style="margin-top: 6rem">
+
+
+    <div class="title-wrapper" style="margin-top: 6rem; padding-right: 80px; padding-left: 80px">
         <div class="title">{{ $bawahan['unor']['induk']['nama'] }}</div>
         <div class="title">KABUPATEN POHUWATO</div>
         <div class="title">TAHUN {{ $tahun }}</div>
