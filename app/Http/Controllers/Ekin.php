@@ -16,6 +16,7 @@ class Ekin extends Controller
     public function perjanjianKinerja(Request $request)
     {
         try {
+     
             $nama_pihak_pertama = $request->input('nama_pihak_pertama', '');
             $jabatan_pihak_pertama = $request->input('jabatan_pihak_pertama', '');
             $nama_pihak_kedua = $request->input('nama_pihak_kedua', '');
@@ -162,13 +163,15 @@ class Ekin extends Controller
 
             Log::info('Memproses SKP:', [
                 'atasan' => $atasan,
-                // 'bawahan' => $bawahan,
-                // 'skp' => $skp,
+                'bawahan' => $bawahan,
+                'skp' => $skp,
+                'realisasi' => $realisasi,
+                'periode' => $periode,
+                'start' => $start,
+                'end' => $end,
+                'tahun' => $tahun,
                 // 'realisasi' => $realisasi,
-                // 'periode' => $periode,
-                // 'start' => $start,
-                // 'end' => $end,
-                // 'tahun' => $tahun
+                'all' => $request->all()
             ]);
 
 

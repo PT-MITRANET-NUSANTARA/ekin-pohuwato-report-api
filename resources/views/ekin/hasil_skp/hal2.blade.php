@@ -296,8 +296,22 @@
                         {{-- Tampilkan aspek pertama --}}
                         <td>{{ $rhk['aspek'][0]['jenis'] }}</td>
                         <td>{{ $rhk['aspek'][0]['indikator'] }}</td>
-                        <td>{{ $rhk['aspek'][0]['target_tahunan']['target'] ?? 0 }}
-                            {{ $rhk['aspek'][0]['target_tahunan']['satuan'] ?? '' }}</td>
+                        @php
+                            $target = $rhk['aspek'][0]['target_tahunan']['target'] ?? 0;
+                            $satuan = $rhk['aspek'][0]['target_tahunan']['satuan'] ?? '';
+
+                            // Check if target is an integer, if so, cast it to string
+                            if (is_int($target)) {
+                                $target = (string) $target;
+                            }
+
+                            // If satuan is not already a string, cast it to string
+                            if (!is_string($satuan)) {
+                                $satuan = (string) $satuan;
+                            }
+                        @endphp
+
+                        <td>{{ $target . $satuan }}</td>
                         <td>{{ $realisasi[$rhk['_id']][$rhk['aspek'][0]['_id']] ?? '' }}</td>
                         <td>{{ $rhk['aspek'][0]['feedback'][$periode['_id']]['feedback'] ?? '' }}</td>
                     @else
@@ -313,8 +327,22 @@
                             <tr>
                                 <td>{{ $aspek['jenis'] }}</td>
                                 <td>{{ $aspek['indikator'] }}</td>
-                                <td>{{ $aspek['target_tahunan']['target'] ?? 0 }}
-                                    {{ $aspek['target_tahunan']['satuan'] ?? '' }}</td>
+                                @php
+                                    $target = $aspek['target_tahunan']['target'] ?? 0;
+                                    $satuan = $aspek['target_tahunan']['satuan'] ?? '';
+
+                                    // Ensure target is cast to string if it's an integer
+                                    if (is_int($target)) {
+                                        $target = (string) $target;
+                                    }
+
+// Ensure satuan is cast to string if it's not already a string
+                                    if (!is_string($satuan)) {
+                                        $satuan = (string) $satuan;
+                                    }
+                                @endphp
+
+                                <td>{{ $target . $satuan }}</td>
                                 <td>{{ $realisasi[$rhk['_id']][$aspek['_id']] ?? '' }}</td>
                                 <td>{{ $aspek['feedback'][$periode['_id']]['feedback'] ?? '' }}</td>
                             </tr>
