@@ -154,6 +154,9 @@ class Ekin extends Controller
             $atasan = $request->input('atasan');
             $bawahan = $request->input('bawahan');
             $skp = $request->input('skp');
+            $tambahan = $request->input('tambahan');
+            $utama = $request->input('utama');
+            $penilain = $request->input('penilaian');
             $realisasi = $request->input('realisasi');
             $periode = $request->input('periode');
             $start = Carbon::parse($request->input('periodeStart', now()))->translatedFormat('d F Y');
@@ -181,12 +184,12 @@ class Ekin extends Controller
             $pdfMerger->addString($cover);
 
 
-            $hal1 = Pdf::loadView('ekin.hasil_skp.hal1', compact('atasan', 'bawahan', 'periode', 'skp', 'start', 'end', 'tahun'))
+            $hal1 = Pdf::loadView('ekin.hasil_skp.hal1', compact('atasan', 'bawahan', 'periode', 'skp', 'start', 'end', 'tahun', 'utama', 'tambahan'))
                 ->setPaper('a4', 'landscape')->output();
             $pdfMerger->addString($hal1);
 
 
-            $hal2 = Pdf::loadView('ekin.hasil_skp.hal2', compact('atasan', 'bawahan', 'periode', 'skp', 'start', 'end', 'tahun', 'realisasi'))
+            $hal2 = Pdf::loadView('ekin.hasil_skp.hal2', compact('atasan', 'bawahan', 'periode', 'skp', 'start', 'end', 'tahun', 'realisasi', 'penilain', 'utama', 'tambahan'))
                 ->setPaper('a4', 'landscape')->output();
             $pdfMerger->addString($hal2);
 

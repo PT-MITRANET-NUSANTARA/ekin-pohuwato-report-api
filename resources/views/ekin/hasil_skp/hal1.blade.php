@@ -239,7 +239,7 @@
                     Utama
                 </td>
             </tr>
-            @foreach ($skp['rhks'] as $rhk)
+            @foreach ($utama as $rhk)
                 <tr>
                     <td rowspan="{{ max(count($rhk['aspek'] ?? []), 1) }}">
                         {{ $loop->iteration }}
@@ -289,9 +289,9 @@
                                     $satuan = $aspek['target_tahunan']['satuan'] ?? '';
 
                                     // Ensure target is cast to string if it's an integer
-                                    if (is_int($target)) {
-                                        $target = (string) $target;
-                                    }
+if (is_int($target)) {
+    $target = (string) $target;
+}
 
 // Ensure satuan is cast to string if it's not already a string
                                     if (!is_string($satuan)) {
@@ -346,6 +346,74 @@
                     Tambahan
                 </td>
             </tr>
+            @foreach ($tambahan as $rhk)
+                <tr>
+                    <td rowspan="{{ max(count($rhk['aspek'] ?? []), 1) }}">
+                        {{ $loop->iteration }}
+                    </td>
+                    <td rowspan="{{ max(count($rhk['aspek'] ?? []), 1) }}">
+                        {{ $rhk['desc'] }}
+                    </td>
+                    <td rowspan="{{ max(count($rhk['aspek'] ?? []), 1) }}">
+                        <p>{{ $rhk['desc'] }}</p>
+                        <span>{{ $rhk['klasifikasi'] ?? '' }}</span>
+                    </td>
+                    @if (!empty($rhk['aspek']) && count($rhk['aspek']) > 0)
+                        {{-- Tampilkan aspek pertama --}}
+                        <td>{{ $rhk['aspek'][0]['jenis'] }}</td>
+                        <td>{{ $rhk['aspek'][0]['indikator'] }}</td>
+                        @php
+                            $target = $rhk['aspek'][0]['target_tahunan']['target'] ?? 0;
+                            $satuan = $rhk['aspek'][0]['target_tahunan']['satuan'] ?? '';
+
+                            // Check if target is an integer, if so, cast it to string
+                            if (is_int($target)) {
+                                $target = (string) $target;
+                            }
+
+                            // If satuan is not already a string, cast it to string
+                            if (!is_string($satuan)) {
+                                $satuan = (string) $satuan;
+                            }
+                        @endphp
+
+                        <td>{{ $target . $satuan }}</td>
+                    @else
+                        {{-- Jika tidak ada aspek --}}
+                        <td colspan="5">No aspek available</td>
+                    @endif
+                </tr>
+                {{-- Tampilkan aspek lainnya jika ada lebih dari 1 --}}
+                @if (!empty($rhk['aspek']) && count($rhk['aspek']) > 1)
+                    @foreach ($rhk['aspek'] as $key => $aspek)
+                        @if ($key > 0)
+                            {{-- Lewati aspek pertama yang sudah ditampilkan --}}
+                            <tr>
+                                <td>{{ $aspek['jenis'] }}</td>
+                                <td>{{ $aspek['indikator'] }}</td>
+                                @php
+                                    $target = $aspek['target_tahunan']['target'] ?? 0;
+                                    $satuan = $aspek['target_tahunan']['satuan'] ?? '';
+
+                                    // Ensure target is cast to string if it's an integer
+if (is_int($target)) {
+    $target = (string) $target;
+}
+
+// Ensure satuan is cast to string if it's not already a string
+                                    if (!is_string($satuan)) {
+                                        $satuan = (string) $satuan;
+                                    }
+                                @endphp
+
+                                <td>{{ $target . $satuan }}</td>
+
+
+                            </tr>
+                        @endif
+                    @endforeach
+                @endif
+            @endforeach
         </tbody>
     </table>
     <table class="table-sasaran" style="font-size: 10">
